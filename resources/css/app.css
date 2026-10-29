@@ -39,3 +39,11 @@ a { color: inherit; }
 .form-label { display: grid; gap: .45rem; font-size: .95rem; font-weight: 700; }
 .form-control { width: 100%; min-height: 44px; border: 1px solid #94a3b8; border-radius: .55rem; background: white; padding: .6rem .7rem; color: #0f172a; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+.sdgs-section {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+}

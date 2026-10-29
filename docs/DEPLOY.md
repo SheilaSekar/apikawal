@@ -41,6 +41,6 @@ Simpan dump dengan aman, jangan commit jika memuat data/kredensial sensitif.
 - [ ] Akun demo berfungsi; password diganti bila diperlukan.
 - [ ] README, dokumentasi, dan proposal selesai (maksimal 30 halaman sesuai ketentuan).
 - [ ] Nama file mengikuti aturan lomba.
-- [ ] Ganti logo/nama tim placeholder.
+- [ ] Tambahkan logo kompetisi jika sudah tersedia dan verifikasi nama tim pada halaman Tentang.
 - [ ] Tinjau ketentuan tile OSM dan lisensi sumber hotspot.
 - [ ] Uji register → laporan → verifikasi → respons → selesai pada deployment.

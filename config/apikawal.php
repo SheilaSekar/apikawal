@@ -12,6 +12,10 @@ return [
     // Bounding box perkiraan untuk demo; bukan batas administratif dan dapat diganti tim.
     'demo_bounds' => ['south' => -3.6, 'north' => -3.0, 'west' => 105.0, 'east' => 105.8, 'grid_degrees' => 0.05],
     'analytics' => ['hotspot_months' => 12, 'hotspot_weight' => 0.7, 'report_weight' => 0.3],
-    'team' => ['Nama anggota 1', 'Nama anggota 2', 'Nama anggota 3'],
+    'team' => [
+        'Sheila Sekar Asri Puteri',
+        'Myla Melida',
+        'Kiki Hardiyanti',
+    ],
     'logo' => '/images/logo-placeholder.svg',
 ];

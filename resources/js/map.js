@@ -29,7 +29,19 @@ document.addEventListener('alpine:init', () => {
                     const icon = L.divIcon({ className: '', html: `<span style="display:grid;place-items:center;width:34px;height:34px;background:${color};color:white;border:2px solid white;border-radius:50%;font-weight:bold;box-shadow:0 1px 5px #555">${symbol}</span>`, iconSize: [34, 34], iconAnchor: [17, 17] });
                     L.marker([item.lat, item.lng], { icon }).bindPopup(`<a href="/laporan/${encodeURIComponent(item.code)}"><strong>${item.code}</strong></a><br>${item.status_label}<br>Prioritas ${item.level} (${item.priority})`).addTo(this.markers);
                 }
-                for (const spot of data.hotspots) L.circleMarker([spot.lat, spot.lng], { radius: 5, color: '#7c3aed' }).bindPopup(`Hotspot: ${L.Util.escapeHTML(spot.source)}`).addTo(this.markers);
+                for (const spot of data.hotspots) {
+    L.circleMarker([spot.lat, spot.lng], {
+        radius: 5,
+        color: '#7c3aed'
+    })
+    .bindPopup(`Hotspot: ${String(spot.source ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')}`)
+    .addTo(this.markers);
+    }
             } catch (error) {
                 this.error = error.message || 'Terjadi gangguan saat memuat peta.';
             } finally {

@@ -59,7 +59,7 @@
 - Toolchain: PHP 8.3.36, Composer 2.8.12, Node 24.21.0, npm 11.19.0, Git 2.53.0.
 - Git memakai `safe.directory` per command karena kepemilikan `.git` berbeda; konfigurasi global tidak diubah.
 - Default `TRUSTED_PROXIES` lokal adalah 127.0.0.1; sebelum deploy isi alamat/CIDR proxy hosting.
-- Tim perlu mengisi nama anggota/logo, memilih data hotspot nyata setelah memeriksa lisensi, mengubah password demo, memeriksa OSM tile policy, mencoba deploy, dan menguji tampilan pada layar 360px.
+- Nama anggota sudah dicantumkan di halaman Tentang. Tim perlu menambahkan logo jika tersedia, memilih data hotspot nyata setelah memeriksa lisensi, mengubah password demo, memeriksa OSM tile policy, mencoba deploy, dan menguji tampilan pada layar 360px.
 - Belum ada remote Git terkonfigurasi; repository belum dipush/dipastikan public. Tim perlu menambahkan URL remote GitHub yang benar, memastikan visibility public, lalu push commit.
 - Tidak ada fitur wajib bagian “tidak boleh dipotong” yang sengaja dipangkas. Integrasi resmi, WhatsApp/SMS, cuaca real-time, kalibrasi pakar, model prediksi, dan PWA/offline tetap proyeksi.
 

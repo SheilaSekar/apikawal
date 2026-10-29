@@ -107,7 +107,7 @@ CSRF, hash password, request validation, policy + middleware role, throttle, MIM
 
 ## Data, atribusi, dan proyeksi
 
-Tile peta © OpenStreetMap contributors (lihat kebijakan tile server sebelum produksi). Hotspot demo sintetis. Logo kompetisi dan nama anggota belum diisi dan harus diganti tim.
+Tile peta © OpenStreetMap contributors (lihat kebijakan tile server sebelum produksi). Hotspot demo sintetis. Nama anggota tim ditampilkan di halaman Tentang; logo kompetisi belum tersedia dan dapat ditambahkan tim.
 
 Pengembangan berikutnya: integrasi resmi BPBD/Manggala Agni, WhatsApp/SMS, cuaca real-time, kalibrasi pakar, model prediksi, PWA/offline, dan monitoring operasional.
 

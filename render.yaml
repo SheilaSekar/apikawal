@@ -1,6 +1,8 @@
 services:
   - type: web
     name: apikawal
+    plan: free
+    region: singapore
     runtime: docker
     healthCheckPath: /api/health
     envVars:

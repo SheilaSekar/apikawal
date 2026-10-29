@@ -34,7 +34,7 @@ attempt=1
 migrated=0
 while [ "$attempt" -le 5 ]; do
     echo "Running database migrations (attempt ${attempt}/5)."
-    if timeout 5s php artisan migrate --force >/tmp/apikawal-migrate.log 2>&1; then
+    if timeout 60s php artisan migrate --force >/tmp/apikawal-migrate.log 2>&1; then
         migrated=1
         rm -f /tmp/apikawal-migrate.log
         break
@@ -48,7 +48,7 @@ while [ "$attempt" -le 5 ]; do
 done
 
 if [ "$migrated" -ne 1 ]; then
-    echo "ERROR: Database migrations failed after retries (about 30 seconds maximum). Check database availability and deployment environment settings." >&2
+    echo "ERROR: Database migrations failed after 5 attempts (up to 5 minutes). Check database availability and deployment environment settings." >&2
     exit 1
 fi
 

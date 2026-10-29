@@ -19,7 +19,7 @@ Environment yang dibutuhkan untuk produksi:
 - `TRUSTED_PROXIES` sesuai ingress proxy platform; default aplikasi tetap `127.0.0.1`.
 - `APP_TIMEZONE=Asia/Jakarta`, `APP_LOCALE=id`, `APP_FALLBACK_LOCALE=id`, `APP_FAKER_LOCALE=id_ID`.
 
-Container menjalankan `php artisan migrate --force` saat startup dan berhenti dengan pesan jelas bila migrasi tetap gagal setelah retry sekitar 30 detik. Seeder **tidak** berjalan otomatis kecuali `SEED_ON_BOOT=true`. Jangan memakai SQLite di production karena filesystem container bersifat ephemeral.
+Container menjalankan `php artisan migrate --force` saat startup dan berhenti dengan pesan jelas bila migrasi tetap gagal setelah lima percobaan, masing-masing hingga 60 detik. Seeder **tidak** berjalan otomatis kecuali `SEED_ON_BOOT=true`. Jangan memakai SQLite di production karena filesystem container bersifat ephemeral.
 
 ### Deploy ke Render (langkah demi langkah)
 
@@ -29,10 +29,11 @@ Container menjalankan `php artisan migrate --force` saat startup dan berhenti de
    - `APP_KEY`: dari menjalankan `php artisan key:generate --show` secara lokal. Masukkan hasilnya langsung ke environment Render; jangan commit atau membagikan nilainya.
    - `APP_URL`: URL HTTPS service Render setelah dibuat, atau domain khusus yang dipasang.
    - `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`: detail koneksi yang diberikan penyedia MySQL eksternal.
+   - Untuk penyedia yang memakai CA publik, misalnya TiDB Cloud, isi `MYSQL_ATTR_SSL_CA=/etc/ssl/certs/ca-certificates.crt`. Penyedia dengan CA sendiri, misalnya Aiven, memerlukan file CA tersebut ditambahkan ke image container dan `MYSQL_ATTR_SSL_CA` diarahkan ke lokasinya.
    - `TRUSTED_PROXIES`: gunakan alamat/CIDR proxy tepercaya jika platform menyediakannya. Jika alamat proxy berubah-ubah dan platform memastikan request selalu melewati proxy yang memvalidasi/menimpa `X-Forwarded-*`, `*` dapat dipakai sebagai trade-off. Wildcard mempercayai header forwarding dari semua sumber yang dapat mencapai aplikasi; jika origin dapat diakses langsung atau proxy tidak membersihkan header, klien dapat memalsukan IP/skema/host yang dipercaya aplikasi. Jangan gunakan wildcard tanpa memastikan batas jaringan dan perilaku proxy platform.
 4. Biarkan `DB_CONNECTION=mysql`, `APP_ENV=production`, `APP_DEBUG=false`, `SESSION_DRIVER=database`, `CACHE_STORE=database`, `QUEUE_CONNECTION=sync`, `LOG_CHANNEL=stderr`, dan `SESSION_SECURE_COOKIE=true`. Render menyuntikkan `PORT`; jangan menetapkan port service berbeda dari port yang didengarkan aplikasi. Pertahankan `SEED_ON_BOOT=false` untuk startup normal.
-5. Deploy service. Entrypoint menunggu DB dengan percobaan migrasi maksimal sekitar 30 detik, menjalankan migrasi, meng-cache konfigurasi/route/view, lalu memulai Apache. Periksa log deploy jika migrasi gagal; pastikan firewall, hostname, port, kredensial, dan TLS database sesuai provider.
-6. Jika demo data diperlukan, ubah `SEED_DEMO=true`, lalu jalankan **sekali** dari Shell service Render: `php artisan db:seed --force`. Seeder bersifat idempoten. Setelah berhasil, kembalikan `SEED_DEMO=false` jika tidak ingin akun/data demo diperbarui saat seeding manual berikutnya. Jangan menyalakan `SEED_ON_BOOT` untuk deployment biasa; bila sengaja digunakan, seeder berjalan pada setiap start container.
+5. Deploy service. Entrypoint menunggu DB dengan lima percobaan migrasi, masing-masing dibatasi 60 detik, lalu meng-cache konfigurasi/route/view dan memulai Apache. Periksa log deploy jika migrasi gagal; pastikan firewall, hostname, port, kredensial, dan TLS database sesuai provider.
+6. Untuk seed pertama pada free tier, set `SEED_DEMO=true` dan `SEED_ON_BOOT=true`, lalu deploy. Entrypoint menjalankan seeder setelah migrasi. Setelah deploy berhasil dan data demo tersedia, kembalikan **keduanya** ke `false` agar seeder tidak berjalan lagi saat restart berikutnya. Alternatifnya, dari lokal arahkan `.env` sementara ke database produksi dengan `SEED_DEMO=true`, lalu jalankan `php artisan db:seed --force`; pulihkan `.env` lokal setelah selesai. Seeder bersifat idempoten.
 7. Verifikasi setelah deploy:
    - Buka `/` dan `/peta` melalui HTTPS.
    - Buka `/api/health`; pastikan HTTP 200 dan status database `ok`.

@@ -27,4 +27,19 @@ document.addEventListener('alpine:init', () => {
             for (const spot of data.hotspots) L.circleMarker([spot.lat, spot.lng], { radius: 5, color: '#7c3aed' }).bindPopup(`Hotspot: ${spot.source}`).addTo(this.markers);
         },
     }));
+    window.Alpine.data('apiKawalRiskMap', () => ({
+        map: null,
+        async init() {
+            this.map = L.map('risk-map').setView([-3.3, 105.4], 8);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap contributors' }).addTo(this.map);
+            const response = await fetch('/api/v1/risk-areas');
+            if (!response.ok) return;
+            const { data } = await response.json();
+            for (const cell of data) {
+                const color = cell.level === 'tinggi' ? '#b91c1c' : cell.level === 'sedang' ? '#d97706' : '#15803d';
+                L.rectangle([[cell.bbox.south, cell.bbox.west], [cell.bbox.north, cell.bbox.east]], { color, weight: 1, fillColor: color, fillOpacity: 0.28 })
+                    .bindPopup(`Sel ${cell.cell_key}<br>Level ${cell.level}<br>Skor ${Math.round(cell.score)}<br>Hotspot ${cell.hotspot_count} · laporan ${cell.report_count}`).addTo(this.map);
+            }
+        },
+    }));
 });

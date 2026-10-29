@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Enums\ReportStatus;
 use App\Enums\Role;
+use App\Models\GridCell;
 use App\Models\Hotspot;
+use App\Models\PriorityConfig;
 use App\Models\Report;
 use App\Models\UserNotification;
+use App\Services\AnalyticsService;
 use App\Services\PriorityService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -101,5 +104,29 @@ class PublicPageController extends Controller
         $notification->update(['read_at' => now()]);
 
         return back()->with('status', 'Notifikasi ditandai telah dibaca.');
+    }
+
+    public function analytics(AnalyticsService $analytics): View
+    {
+        $reports = Report::where('needs_moderation', false)->get();
+        $days = collect(range(13, 0))->map(fn ($ago) => now()->subDays($ago)->startOfDay());
+        $trend = $days->map(fn ($day) => ['label' => $day->format('d/m'), 'count' => $reports->whereBetween('created_at', [$day, $day->copy()->endOfDay()])->count()]);
+        $byStatus = $reports->groupBy(fn ($report) => $report->status->value)->map->count();
+        $byLand = $reports->groupBy(fn ($report) => $report->land_type->value)->map->count();
+        $cells = GridCell::orderBy('rank_position')->limit(10)->get();
+
+        return view('pages.analytics', ['stats' => $analytics->summary(), 'trend' => $trend, 'byStatus' => $byStatus, 'byLand' => $byLand, 'cells' => $cells]);
+    }
+
+    public function apiDocs(): View
+    {
+        return view('pages.api-docs');
+    }
+
+    public function about(): View
+    {
+        $weights = PriorityConfig::query()->pluck('value', 'name')->all() ?: config('apikawal.priority.weights');
+
+        return view('pages.about', compact('weights'));
     }
 }

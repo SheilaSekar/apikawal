@@ -16,7 +16,7 @@
             <a class="brand" href="{{ route('home') }}" aria-label="APIKAWAL, halaman utama"><span aria-hidden="true">ðŸ”¥</span> APIKAWAL</a>
             <div class="flex flex-wrap items-center gap-4 text-sm font-semibold">
                 <a href="{{ route('map') }}">Peta</a>
-                <a href="{{ route('about') }}">Tentang</a>
+                <a href="{{ route('about') }}">Tentang</a><a href="{{ route('analytics') }}">Analitik</a><a href="{{ route('api-docs') }}">API</a>
                 @auth<a href="{{ route('dashboard') }}">Dasbor</a>@else<a href="{{ route('login') }}">Masuk</a>@endauth
                 @guest<a class="button button-primary" href="{{ route('register') }}">Buat akun</a>@endguest
             </div>
@@ -28,4 +28,5 @@
     </footer>
 </body>
 </html>
+
 

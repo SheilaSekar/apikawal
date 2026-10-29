@@ -10,6 +10,34 @@ use Illuminate\Support\Facades\DB;
 
 class AnalyticsService
 {
+    public function summary(): array
+    {
+        $reports = Report::query()->where('needs_moderation', false)->with('logs')->get();
+        $total = $reports->count();
+        $verified = $reports->filter(fn ($report) => $report->logs->contains('to_status', 'terverifikasi'));
+        $handled = $reports->filter(fn ($report) => $report->logs->contains(fn ($log) => in_array($log->to_status, ['diteruskan', 'dalam_penanganan'], true)));
+        $minutes = fn ($rows, $target) => $rows->map(function ($report) use ($target) {
+            $entry = $report->logs->firstWhere('to_status', $target);
+
+            return $entry ? $report->created_at->diffInMinutes($entry->created_at) : null;
+        })->filter(fn ($value) => $value !== null)->sort()->values();
+
+        return [
+            'reports' => $total,
+            'verified' => $reports->where('status', ReportStatus::Terverifikasi)->count(),
+            'rejected' => $reports->where('status', ReportStatus::Ditolak)->count(),
+            'handling' => $reports->whereIn('status', [ReportStatus::Diteruskan, ReportStatus::DalamPenanganan])->count(),
+            'done' => $reports->where('status', ReportStatus::Selesai)->count(),
+            'median_report_to_verification' => $this->median($minutes($verified, 'terverifikasi')),
+            'median_verification_to_handling' => $this->median($verified->map(function ($report) {
+                $verification = $report->logs->firstWhere('to_status', 'terverifikasi');
+                $handling = $report->logs->first(fn ($log) => in_array($log->to_status, ['diteruskan', 'dalam_penanganan'], true));
+
+                return $verification && $handling ? $verification->created_at->diffInMinutes($handling->created_at) : null;
+            })->filter(fn ($value) => $value !== null)->sort()->values()),
+        ];
+    }
+
     public function recomputeGrid(): int
     {
         $bounds = config('apikawal.demo_bounds');
@@ -60,5 +88,15 @@ class AnalyticsService
         if (isset($cells[$key])) {
             $cells[$key][$column]++;
         }
+    }
+
+    private function median($values): ?int
+    {
+        if ($values->isEmpty()) {
+            return null;
+        }
+        $middle = intdiv($values->count(), 2);
+
+        return (int) ($values->count() % 2 ? $values[$middle] : round(($values[$middle - 1] + $values[$middle]) / 2));
     }
 }

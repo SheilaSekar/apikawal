@@ -30,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(Report::class, ReportPolicy::class);
         RateLimiter::for('create-report', fn (Request $request) => Limit::perHour(5)->by((string) $request->user()?->id ?: $request->ip()));
+        RateLimiter::for('public-api', fn (Request $request) => Limit::perMinute(60)->by($request->ip()));
     }
 }

@@ -12,6 +12,7 @@ a { color: inherit; }
 .site-container { width: min(72rem, calc(100% - 2rem)); margin-inline: auto; }
 .emergency-banner { background: #7f1d1d; color: #fff; padding: .85rem 1rem; text-align: center; font-size: .95rem; font-weight: 700; }
 .brand { display: inline-flex; align-items: center; gap: .5rem; color: #064e3b; font-size: 1.35rem; font-weight: 900; text-decoration: none; }
+.site-nav-link { display: inline-flex; min-height: 44px; align-items: center; }
 .button { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; border-radius: .65rem; padding: .65rem 1rem; font-weight: 700; text-decoration: none; }
 .button-primary { background: #9a3412; color: #fff; }
 .button-secondary { border: 1px solid #cbd5e1; background: #fff; color: #0f172a; }

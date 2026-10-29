@@ -15,9 +15,9 @@
         <nav class="site-container flex min-h-16 flex-wrap items-center justify-between gap-4 py-3" aria-label="Navigasi utama">
             <a class="brand" href="{{ route('home') }}" aria-label="APIKAWAL, halaman utama"><span aria-hidden="true">ðŸ”¥</span> APIKAWAL</a>
             <div class="flex flex-wrap items-center gap-4 text-sm font-semibold">
-                <a href="{{ route('map') }}">Peta</a>
-                <a href="{{ route('about') }}">Tentang</a><a href="{{ route('analytics') }}">Analitik</a><a href="{{ route('api-docs') }}">API</a>
-                @auth<a href="{{ route('dashboard') }}">Dasbor</a>@else<a href="{{ route('login') }}">Masuk</a>@endauth
+                <a class="site-nav-link" href="{{ route('map') }}">Peta</a>
+                <a class="site-nav-link" href="{{ route('about') }}">Tentang</a><a class="site-nav-link" href="{{ route('analytics') }}">Analitik</a><a class="site-nav-link" href="{{ route('api-docs') }}">API</a>
+                @auth<a class="site-nav-link" href="{{ route('dashboard') }}">Dasbor</a>@else<a class="site-nav-link" href="{{ route('login') }}">Masuk</a>@endauth
                 @guest<a class="button button-primary" href="{{ route('register') }}">Buat akun</a>@endguest
             </div>
         </nav>

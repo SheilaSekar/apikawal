@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
 
 class ReportService
 {
-    public function __construct(private readonly ImageProcessor $images) {}
+    public function __construct(private readonly ImageProcessor $images, private readonly PriorityService $priority, private readonly VerificationService $verification) {}
 
     public function checkDuplicate(User $user, float $lat, float $lng): array
     {
@@ -78,6 +78,7 @@ class ReportService
             foreach ($processedPhotos as $photo) {
                 $report->photos()->create($photo);
             }
+            $this->priority->recalculate($report);
 
             if ($parent) {
                 $weight = match ($user->role) {
@@ -86,6 +87,8 @@ class ReportService
                     default => 1,
                 };
                 $parent->verifications()->create(['user_id' => $user->id, 'vote' => 'konfirmasi', 'weight' => $weight, 'source_report_id' => $report->id]);
+                $this->verification->applyOutcome($parent);
+                $this->priority->recalculate($parent->fresh());
             }
 
             return $report->load('photos');

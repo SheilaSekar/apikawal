@@ -56,4 +56,14 @@ class Report extends Model
     {
         return $this->hasMany(Verification::class);
     }
+
+    public function logs(): HasMany
+    {
+        return $this->hasMany(ResponseLog::class)->oldest();
+    }
+
+    public function flags(): HasMany
+    {
+        return $this->hasMany(AbuseFlag::class);
+    }
 }

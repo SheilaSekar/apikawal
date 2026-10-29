@@ -5,7 +5,7 @@ namespace App\Domain;
 final class VerificationEvaluator
 {
     /** Mengembalikan status baru bila bobot suara memenuhi ambang yang transparan. */
-    public static function evaluate(iterable $votes): array
+    public static function evaluate(iterable $votes, int $confirmThreshold): array
     {
         $confirm = 0;
         $deny = 0;
@@ -24,7 +24,7 @@ final class VerificationEvaluator
         }
 
         $status = null;
-        if ($trustedConfirm || ($confirm >= (int) config('apikawal.verification.confirm_threshold', 2) && $confirm > $deny)) {
+        if ($trustedConfirm || ($confirm >= $confirmThreshold && $confirm > $deny)) {
             $status = 'terverifikasi';
         } elseif ($deny >= 3 && $deny > $confirm) {
             $status = 'ditolak';

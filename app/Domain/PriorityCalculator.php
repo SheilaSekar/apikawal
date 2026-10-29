@@ -4,10 +4,8 @@ namespace App\Domain;
 
 final class PriorityCalculator
 {
-    public static function calculate(array $input, ?array $weights = null): array
+    public static function calculate(array $input, array $weights, array $landFactors, int $unverifiedCap): array
     {
-        $weights ??= config('apikawal.priority.weights');
-        $landFactors = config('apikawal.priority.land_factors');
         $age = max(0, (float) ($input['age_hours'] ?? 0));
         $recency = $age < 6 ? 1 : self::clamp((48 - $age) / 42);
         $factors = [
@@ -31,7 +29,7 @@ final class PriorityCalculator
         $score = (int) round($score);
         $unverified = ($input['status'] ?? 'baru') === 'baru';
         if ($unverified) {
-            $score = min($score, (int) config('apikawal.priority.unverified_cap', 59));
+            $score = min($score, $unverifiedCap);
         }
         $level = match (true) {
             $score >= 80 => 'kritis', $score >= 60 => 'tinggi', $score >= 40 => 'sedang', default => 'rendah',

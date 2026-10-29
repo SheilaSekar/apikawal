@@ -1,4 +1,4 @@
-﻿# API publik v1
+# API publik v1
 
 Semua route GET; CORS GET terbuka, dibatasi 60 permintaan/menit/IP. JSON memakai `{data, meta}`. Koordinat laporan tiga angka desimal; tidak ada nama, deskripsi bebas, foto, atau ID pengguna. Laporan moderasi dan ditolak tidak publik. Respons daftar memiliki `Cache-Control: public, max-age=30`; stats 60 detik; grid 300 detik.
 
@@ -12,7 +12,7 @@ Semua route GET; CORS GET terbuka, dibatasi 60 permintaan/menit/IP. JSON memakai
 Filter `status`, `level`, `land_type`, `since` (tanggal ISO); `per_page` 1–100.
 
 ## Detail
-`GET /api/v1/reports/{code}` — field daftar + timeline anonim `{status,note,at}`. Catatan operasional perlu ditulis tanpa data pribadi.
+`GET /api/v1/reports/{code}` — field daftar + timeline anonim `{status,at}` tanpa catatan internal.
 
 ## Risk areas
 `GET /api/v1/risk-areas?level=tinggi` — grid bbox, skor, rank, level, counts.

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Role;
+use App\Enums\VolunteerStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -30,12 +32,17 @@ class RegisteredUserController extends Controller
     public function store(RegisterRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        // Role selalu berasal dari default database; input publik tidak dapat memilih role.
+        // Role ditetapkan di server; kolom ini tidak pernah diambil dari input publik.
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $user->role = Role::Warga;
+        $user->volunteer_status = VolunteerStatus::None;
+        $user->is_active = true;
+        $user->reputation = 0;
+        $user->save();
 
         event(new Registered($user));
 

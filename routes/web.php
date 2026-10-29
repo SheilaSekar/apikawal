@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicPageController::class, 'landing'])->name('home');
 Route::get('/peta', [PublicPageController::class, 'map'])->name('map');
-Route::get('/peta/data', [PublicPageController::class, 'mapData'])->name('map.data');
+Route::get('/peta/data', [PublicPageController::class, 'mapData'])->middleware('throttle:public-api')->name('map.data');
 Route::get('/analitik', [PublicPageController::class, 'analytics'])->name('analytics');
 Route::get('/api-docs', [PublicPageController::class, 'apiDocs'])->name('api-docs');
 Route::get('/tentang', [PublicPageController::class, 'about'])->name('about');
@@ -45,6 +45,7 @@ Route::middleware(['auth', 'active'])->group(function () {
 Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/relawan', [ProfileController::class, 'applyVolunteer'])->name('profile.volunteer.apply');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

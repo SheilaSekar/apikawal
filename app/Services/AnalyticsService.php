@@ -43,15 +43,19 @@ class AnalyticsService
         $bounds = config('apikawal.demo_bounds');
         $step = (float) $bounds['grid_degrees'];
         $cells = [];
-        for ($lat = (float) $bounds['south']; $lat < $bounds['north']; $lat += $step) {
-            for ($lng = (float) $bounds['west']; $lng < $bounds['east']; $lng += $step) {
-                $key = round($lat / $step).'_'.round($lng / $step);
+        $rows = (int) round(($bounds['north'] - $bounds['south']) / $step);
+        $columns = (int) round(($bounds['east'] - $bounds['west']) / $step);
+        for ($latIndex = 0; $latIndex < $rows; $latIndex++) {
+            for ($lngIndex = 0; $lngIndex < $columns; $lngIndex++) {
+                $lat = $bounds['south'] + $latIndex * $step;
+                $lng = $bounds['west'] + $lngIndex * $step;
+                $key = $latIndex.'_'.$lngIndex;
                 $cells[$key] = ['cell_key' => $key, 'min_lat' => $lat, 'min_lng' => $lng, 'max_lat' => min($lat + $step, $bounds['north']), 'max_lng' => min($lng + $step, $bounds['east']), 'hotspot_count' => 0, 'report_count' => 0];
             }
         }
         $period = now()->subMonths((int) config('apikawal.analytics.hotspot_months', 12));
         $hotspots = Hotspot::where('detected_at', '>=', $period)->whereBetween('lat', [$bounds['south'], $bounds['north']])->whereBetween('lng', [$bounds['west'], $bounds['east']])->get(['lat', 'lng']);
-        $reports = Report::where('status', '!=', ReportStatus::Ditolak)->whereBetween('lat', [$bounds['south'], $bounds['north']])->whereBetween('lng', [$bounds['west'], $bounds['east']])->get(['lat', 'lng']);
+        $reports = Report::whereIn('status', [ReportStatus::Terverifikasi, ReportStatus::Diteruskan, ReportStatus::DalamPenanganan, ReportStatus::Terkendali, ReportStatus::Selesai])->whereBetween('lat', [$bounds['south'], $bounds['north']])->whereBetween('lng', [$bounds['west'], $bounds['east']])->get(['lat', 'lng']);
         foreach ($hotspots as $point) {
             $this->increment($cells, $point->lat, $point->lng, 'hotspot_count', $step);
         }
@@ -68,7 +72,7 @@ class AnalyticsService
         $total = count($cells);
         foreach ($cells as $index => &$cell) {
             $cell['rank_position'] = $index + 1;
-            $ratio = ($index + 1) / max(1, $total);
+            $ratio = $index / max(1, $total - 1);
             $cell['prone_level'] = $ratio <= 0.2 ? 'tinggi' : ($ratio <= 0.5 ? 'sedang' : 'rendah');
         }
         unset($cell);
@@ -84,7 +88,10 @@ class AnalyticsService
 
     private function increment(array &$cells, float $lat, float $lng, string $column, float $step): void
     {
-        $key = round(floor($lat / $step) * $step / $step).'_'.round(floor($lng / $step) * $step / $step);
+        $bounds = config('apikawal.demo_bounds');
+        $latIndex = (int) floor(($lat - $bounds['south']) / $step);
+        $lngIndex = (int) floor(($lng - $bounds['west']) / $step);
+        $key = $latIndex.'_'.$lngIndex;
         if (isset($cells[$key])) {
             $cells[$key][$column]++;
         }

@@ -9,4 +9,4 @@ Route::middleware('throttle:public-api')->prefix('v1')->group(function () {
     Route::get('/risk-areas', [PublicApiController::class, 'riskAreas']);
     Route::get('/stats', [PublicApiController::class, 'stats']);
 });
-Route::get('/health', [PublicApiController::class, 'health']);
+Route::get('/health', [PublicApiController::class, 'health'])->middleware('throttle:public-api');

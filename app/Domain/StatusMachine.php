@@ -18,7 +18,7 @@ final class StatusMachine
             return false;
         }
         if ($role === 'admin') {
-            return filled($note);
+            return self::hasReason($note);
         }
         if ($role === 'sistem') {
             return in_array($to, ['terverifikasi', 'ditolak', 'padam_sendiri', 'duplikat'], true) && $from === 'baru'
@@ -28,7 +28,7 @@ final class StatusMachine
             return true;
         }
         if ($from === 'terverifikasi' && $to === 'diteruskan' && in_array($role, ['petugas', 'admin'], true)) {
-            return filled($note);
+            return self::hasReason($note);
         }
 
         return in_array($to, self::TRANSITIONS[$from] ?? [], true) && in_array($role, ['petugas', 'admin'], true);
@@ -39,5 +39,10 @@ final class StatusMachine
         if (! self::canTransition($from, $to, $role, $note)) {
             throw new \DomainException('Perubahan status tidak diizinkan atau catatan override admin belum diisi.');
         }
+    }
+
+    private static function hasReason(?string $note): bool
+    {
+        return $note !== null && trim($note) !== '';
     }
 }

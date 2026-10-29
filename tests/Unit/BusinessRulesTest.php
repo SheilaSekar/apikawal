@@ -16,7 +16,7 @@ class BusinessRulesTest extends TestCase
         $result = PriorityCalculator::calculate([
             'confirm_w' => 3, 'deny_w' => 0, 'land_type' => 'gambut', 'age_hours' => 0,
             'duplicate_count' => 0, 'has_photo' => true, 'status' => 'baru',
-        ]);
+        ], config('apikawal.priority.weights'), config('apikawal.priority.land_factors'), (int) config('apikawal.priority.unverified_cap'));
 
         $this->assertSame(59, $result['score']);
         $this->assertSame('sedang', $result['level']);
@@ -31,7 +31,7 @@ class BusinessRulesTest extends TestCase
             'confirm_w' => 3, 'deny_w' => 0, 'land_type' => 'gambut', 'age_hours' => 0,
             'duplicate_count' => 4, 'has_photo' => true, 'hotspot_distance_km' => 0.5, 'poi_distance_km' => 1,
             'status' => 'terverifikasi',
-        ]);
+        ], config('apikawal.priority.weights'), config('apikawal.priority.land_factors'), (int) config('apikawal.priority.unverified_cap'));
 
         $this->assertSame(100, $result['score']);
         $this->assertSame('kritis', $result['level']);
@@ -43,10 +43,10 @@ class BusinessRulesTest extends TestCase
         $twoResidents = VerificationEvaluator::evaluate([
             ['vote' => 'konfirmasi', 'weight' => 1, 'role' => 'warga'],
             ['vote' => 'konfirmasi', 'weight' => 1, 'role' => 'warga'],
-        ]);
-        $trusted = VerificationEvaluator::evaluate([['vote' => 'konfirmasi', 'weight' => 2, 'role' => 'relawan']]);
-        $denied = VerificationEvaluator::evaluate([['vote' => 'tidak_terlihat', 'weight' => 3, 'role' => 'warga']]);
-        $out = VerificationEvaluator::evaluate([['vote' => 'sudah_padam', 'weight' => 2, 'role' => 'warga']]);
+        ], 2);
+        $trusted = VerificationEvaluator::evaluate([['vote' => 'konfirmasi', 'weight' => 2, 'role' => 'relawan']], 2);
+        $denied = VerificationEvaluator::evaluate([['vote' => 'tidak_terlihat', 'weight' => 3, 'role' => 'warga']], 2);
+        $out = VerificationEvaluator::evaluate([['vote' => 'sudah_padam', 'weight' => 2, 'role' => 'warga']], 2);
 
         $this->assertSame('terverifikasi', $twoResidents['status']);
         $this->assertSame('terverifikasi', $trusted['status']);

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Domain\DuplicateMatcher;
 use App\Enums\Role;
 use App\Enums\VolunteerStatus;
+use App\Models\AbuseFlag;
 use App\Models\Report;
 use App\Models\User;
 use App\Models\Verification;
@@ -69,16 +70,20 @@ class ReportService
         $processedPhotos = collect($data['photos'] ?? [])->map(fn ($file) => $this->images->process($file));
 
         return DB::transaction(function () use ($user, $data, $parent, $processedPhotos): Report {
+            $needsModeration = $user->reputation <= -3;
             $report = Report::create([
                 'reporter_id' => $user->id, 'parent_id' => $parent?->id, 'lat' => (float) $data['lat'], 'lng' => (float) $data['lng'],
                 'land_type' => $data['land_type'], 'signs' => $data['signs'], 'estimated_area_ha' => $data['estimated_area_ha'] ?? null,
-                'description' => $data['description'] ?? null, 'status' => $parent ? 'duplikat' : 'baru',
+                'description' => $data['description'] ?? null, 'status' => $parent ? 'duplikat' : 'baru', 'needs_moderation' => $needsModeration,
             ]);
             $report->update(['code' => sprintf('AK-%d-%06d', now()->year, $report->id)]);
             foreach ($processedPhotos as $photo) {
                 $report->photos()->create($photo);
             }
             $this->priority->recalculate($report);
+            if ($needsModeration) {
+                AbuseFlag::create(['report_id' => $report->id, 'flagged_by' => null, 'reason' => 'Laporan otomatis masuk moderasi karena reputasi akun rendah.']);
+            }
 
             if ($parent) {
                 $weight = match ($user->role) {

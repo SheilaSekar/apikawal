@@ -23,4 +23,15 @@ class ReportPolicy
     {
         return $user->id !== $report->reporter_id && in_array($report->status, [ReportStatus::Baru, ReportStatus::Terverifikasi], true);
     }
+
+    public function flag(User $user, Report $report): bool
+    {
+        return $this->view($user, $report);
+    }
+
+    public function manageResponse(User $user, Report $report): bool
+    {
+        return in_array($user->role, [Role::Petugas, Role::Admin], true)
+            && (! $report->needs_moderation || $user->role === Role::Admin);
+    }
 }

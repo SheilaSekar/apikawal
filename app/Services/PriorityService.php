@@ -35,7 +35,7 @@ class PriorityService
             'hotspot_distance_km' => $this->nearestHotspot($report), 'poi_distance_km' => $this->nearestPoi($report),
             'duplicate_count' => $report->children->count(), 'age_hours' => $ageHours,
             'has_photo' => $report->photos->isNotEmpty(), 'status' => $report->status->value,
-        ], $this->weights());
+        ], $this->weights(), config('apikawal.priority.land_factors'), (int) config('apikawal.priority.unverified_cap'));
         $report->update(['priority_score' => $result['score'], 'priority_level' => $result['level'], 'priority_breakdown' => $result['breakdown']]);
 
         return $result;

@@ -9,7 +9,9 @@ class UpdateStatusRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return in_array($this->user()?->role?->value, ['petugas', 'admin'], true);
+        $report = $this->route('report');
+
+        return $report !== null && $this->user()?->can('manageResponse', $report) === true;
     }
 
     public function rules(): array

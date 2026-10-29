@@ -11,8 +11,10 @@ use App\Models\GridCell;
 use App\Models\PriorityConfig;
 use App\Models\Report;
 use App\Models\User;
+use App\Models\UserNotification;
 use App\Services\AnalyticsService;
 use App\Services\HotspotImporter;
+use App\Services\ResponseService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -27,8 +29,10 @@ class AdminController extends Controller
 
         return view('pages.admin', [
             'users' => User::latest()->paginate(15, ['*'], 'users'),
+            'volunteerApplications' => UserNotification::with('user')->where('message', 'like', 'Pengajuan relawan:%')->whereNull('read_at')->latest()->limit(20)->get(),
             'flags' => AbuseFlag::with(['report', 'reporter'])->where('resolved', false)->latest()->limit(20)->get(),
             'moderation' => Report::with('reporter')->where('needs_moderation', true)->latest()->limit(20)->get(),
+            'rejected' => Report::with('reporter')->where('status', 'ditolak')->latest()->limit(20)->get(),
             'weights' => PriorityConfig::all()->keyBy('name'),
             'gridCount' => GridCell::count(),
         ]);
@@ -36,23 +40,38 @@ class AdminController extends Controller
 
     public function updateUser(AdminActionRequest $request, User $user): RedirectResponse
     {
+        $this->authorize('manage', User::class);
         $user->role = $request->validated('role');
         $user->is_active = (bool) $request->validated('is_active');
+        if ($request->filled('volunteer_status')) {
+            $user->volunteer_status = VolunteerStatus::from($request->validated('volunteer_status'));
+            if ($user->volunteer_status === VolunteerStatus::Approved) {
+                $user->role = 'relawan';
+            } elseif ($user->volunteer_status === VolunteerStatus::Rejected && $user->role->value === 'relawan') {
+                $user->role = 'warga';
+            }
+        }
         if ($user->role->value === 'relawan' && $user->volunteer_status === VolunteerStatus::Pending) {
             $user->volunteer_status = VolunteerStatus::Approved;
+        }
+        if (in_array($user->volunteer_status, [VolunteerStatus::Approved, VolunteerStatus::Rejected], true)) {
+            UserNotification::where('message', 'like', '%'.$user->email.'%')->where('message', 'like', 'Pengajuan relawan:%')->update(['read_at' => now()]);
         }
         $user->save();
 
         return back()->with('status', 'Akun diperbarui.');
     }
 
-    public function moderate(AdminActionRequest $request, Report $report): RedirectResponse
+    public function moderate(AdminActionRequest $request, Report $report, ResponseService $responses): RedirectResponse
     {
+        $this->authorize('manage', User::class);
         $approved = (bool) $request->validated('approved');
-        $report->update(['needs_moderation' => ! $approved]);
-        if (! $approved) {
-            $report->update(['status' => 'ditolak']);
-        }
+        DB::transaction(function () use ($approved, $request, $report, $responses) {
+            if (! $approved) {
+                $responses->transition($request->user(), $report, 'ditolak', $request->validated('reason'));
+            }
+            $report->update(['needs_moderation' => false]);
+        });
 
         return back()->with('status', $approved ? 'Laporan disetujui.' : 'Laporan ditolak.');
     }

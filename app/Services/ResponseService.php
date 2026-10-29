@@ -20,15 +20,14 @@ class ResponseService
             throw ValidationException::withMessages(['status' => 'Perubahan status hanya tersedia bagi petugas.']);
         }
 
-        try {
-            StatusMachine::assertTransition($report->status->value, $toStatus, $role, $note);
-        } catch (\DomainException $exception) {
-            throw ValidationException::withMessages(['status' => $exception->getMessage()]);
-        }
-
         return DB::transaction(function () use ($actor, $report, $toStatus, $note): Report {
             $locked = Report::query()->lockForUpdate()->findOrFail($report->id);
             $from = $locked->status->value;
+            try {
+                StatusMachine::assertTransition($from, $toStatus, $actor->role->value, $note);
+            } catch (\DomainException $exception) {
+                throw ValidationException::withMessages(['status' => $exception->getMessage()]);
+            }
             $locked->update(['status' => $toStatus]);
             $locked->logs()->create(['actor_id' => $actor->id, 'from_status' => $from, 'to_status' => $toStatus, 'note' => $note]);
             $locked->reporter->notifications()->create(['report_id' => $locked->id, 'message' => "Status laporan {$locked->code} berubah menjadi {$toStatus}."]);

@@ -41,7 +41,7 @@ class PublicApiController extends Controller
         $report->load('logs');
 
         return response()->json(['data' => array_merge((new ReportPublicResource($report))->resolve(), [
-            'timeline' => $report->logs->map(fn ($log) => ['status' => $log->to_status, 'note' => $log->note, 'at' => $log->created_at->toIso8601String()]),
+            'timeline' => $report->logs->map(fn ($log) => ['status' => $log->to_status, 'at' => $log->created_at->toIso8601String()]),
         ]), 'meta' => (object) []])->header('Cache-Control', 'public, max-age=30');
     }
 

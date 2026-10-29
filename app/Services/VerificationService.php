@@ -50,7 +50,7 @@ class VerificationService
 
             return ['vote' => $vote->vote->value, 'weight' => $vote->weight, 'role' => $role];
         });
-        $result = VerificationEvaluator::evaluate($votes);
+        $result = VerificationEvaluator::evaluate($votes, (int) config('apikawal.verification.confirm_threshold'));
         if ($report->status !== ReportStatus::Baru || $result['status'] === null) {
             return $result;
         }

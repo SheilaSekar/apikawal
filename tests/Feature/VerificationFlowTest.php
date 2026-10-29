@@ -57,4 +57,26 @@ class VerificationFlowTest extends TestCase
         $this->assertDatabaseHas('response_logs', ['report_id' => $report->id, 'actor_id' => $petugas->id, 'to_status' => 'diteruskan']);
         $this->assertSame(1, $reporter->fresh()->notifications()->count());
     }
+
+    public function test_verified_report_can_complete_the_full_officer_response_lifecycle(): void
+    {
+        $reporter = User::factory()->create();
+        $report = Report::factory()->create(['reporter_id' => $reporter->id]);
+        foreach ([User::factory()->create(), User::factory()->create()] as $voter) {
+            $this->actingAs($voter)->post(route('reports.verify', $report->code), ['vote' => 'konfirmasi'])->assertRedirect();
+        }
+        $this->assertSame('terverifikasi', $report->fresh()->status->value);
+
+        $petugas = User::factory()->create();
+        $petugas->role = Role::Petugas;
+        $petugas->save();
+        foreach ([['diteruskan', 'Diteruskan ke regu lapangan.'], ['dalam_penanganan', 'Tim mulai menangani.'], ['terkendali', 'Situasi terkendali.'], ['selesai', 'Penanganan selesai.']] as [$status, $note]) {
+            $this->actingAs($petugas)->post(route('reports.status', $report->code), ['status' => $status, 'note' => $note])->assertRedirect();
+        }
+
+        $this->assertSame('selesai', $report->fresh()->status->value);
+        $this->assertDatabaseHas('response_logs', ['report_id' => $report->id, 'to_status' => 'selesai']);
+        $this->assertSame(5, $report->logs()->count());
+        $this->assertGreaterThanOrEqual(2, $reporter->fresh()->notifications()->count());
+    }
 }

@@ -8,7 +8,9 @@ class StoreAbuseFlagRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        $report = $this->route('report');
+
+        return $report !== null && $this->user()?->can('flag', $report) === true;
     }
 
     public function rules(): array

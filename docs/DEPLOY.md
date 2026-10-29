@@ -10,6 +10,7 @@ Gunakan `Dockerfile` (PHP 8.3 Apache; build aset terpisah) pada platform contain
 - `DB_CONNECTION=mysql`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
 - `SESSION_DRIVER=database`, `CACHE_STORE=database`, `QUEUE_CONNECTION=sync`, `LOG_CHANNEL=stderr`.
 - `SESSION_SECURE_COOKIE=true`, `SEED_DEMO=true` hanya jika demo publik memang diperlukan.
+- `TRUSTED_PROXIES` diisi alamat/CIDR ingress proxy platform yang benar; default proyek hanya `127.0.0.1`, bukan wildcard.
 
 Entrypoint menjalankan `php artisan migrate --force`, cache config/route/view, lalu Apache. Migrasi berjalan saat container start; pastikan DB tersedia dan lakukan backup sebelum update schema.
 

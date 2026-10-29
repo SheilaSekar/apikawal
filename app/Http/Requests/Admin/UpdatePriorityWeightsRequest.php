@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePriorityWeightsRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->role->value === 'admin';
+        return $this->user()?->can('manage', User::class) === true;
     }
 
     public function rules(): array

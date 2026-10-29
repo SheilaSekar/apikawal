@@ -87,15 +87,21 @@ class PublicPageController extends Controller
 
     public function officer(PriorityService $priorities): View
     {
+        Report::query()->whereIn('status', [ReportStatus::Terverifikasi, ReportStatus::Diteruskan, ReportStatus::DalamPenanganan, ReportStatus::Terkendali])
+            ->where('updated_at', '<', now()->subMinutes(30))->orderBy('id')->chunkById(100, function ($stale) use ($priorities) {
+                foreach ($stale as $report) {
+                    $priorities->recalculate($report);
+                }
+            });
         $active = Report::query()->whereIn('status', [ReportStatus::Terverifikasi, ReportStatus::Diteruskan, ReportStatus::DalamPenanganan, ReportStatus::Terkendali])
             ->orderByDesc('priority_score')->orderBy('created_at')->paginate(20);
-        foreach ($active->getCollection() as $report) {
-            if ($report->updated_at->lt(now()->subMinutes(30))) {
-                $priorities->recalculate($report);
-            }
-        }
+        $counts = [
+            'verified' => Report::where('status', ReportStatus::Terverifikasi)->count(),
+            'handling' => Report::whereIn('status', [ReportStatus::Diteruskan, ReportStatus::DalamPenanganan])->count(),
+            'controlled' => Report::where('status', ReportStatus::Terkendali)->count(),
+        ];
 
-        return view('pages.officer', compact('active'));
+        return view('pages.officer', compact('active', 'counts'));
     }
 
     public function readNotification(Request $request, UserNotification $notification)

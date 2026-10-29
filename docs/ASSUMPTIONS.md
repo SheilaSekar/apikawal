@@ -9,6 +9,8 @@
 - Identitas publik dihapus dan koordinat dibulatkan ke tiga desimal. Verifikasi jarak tidak diwajibkan karena geolokasi dapat dipalsukan.
 - Update bobot tidak menulis audit log tersendiri; perubahan bobot dibatasi admin dan total 100.
 - Data hotspot sintetis bukan pengamatan lapangan. Sumber nyata harus ditinjau lisensinya.
+- CSP memberi `'unsafe-eval'` pada `script-src` karena runtime Alpine.js mengevaluasi ekspresi `x-data`/`x-on`; ini memperlemah mitigasi injeksi skrip. Jangan memasukkan HTML tidak tepercaya ke direktif Alpine, dan evaluasi migrasi ke komponen CSP-safe bila kebijakan hosting mengharuskan CSP ketat. `style-src 'unsafe-inline'` diperlukan untuk Leaflet dan style peta dinamis.
+- Wildcard trust proxy tidak digunakan. `.env` menyediakan `TRUSTED_PROXIES` dengan default `127.0.0.1`; tim harus mengatur IP/CIDR proxy ingress hosting sebelum mengandalkan forwarded HTTPS/IP header.
 - Logo UINIC dan nama tim memakai placeholder; tim wajib mengganti sebelum submission.
 - Dependensi utama: Laravel untuk routing/ORM/session/validasi/cache; Breeze untuk auth; Intervention Image 3 untuk re-encode; Tailwind/Alpine/Vite untuk UI; Leaflet untuk peta dan OSM tiles; Chart.js untuk grafik; Pint untuk format PHP; PHPUnit untuk tes.
 - Git memakai safe.directory hanya dalam proses command karena kepemilikan folder `.git` sandbox berbeda; konfigurasi global tidak diubah.

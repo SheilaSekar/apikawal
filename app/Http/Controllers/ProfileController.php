@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
+use App\Enums\VolunteerStatus;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\VolunteerApplicationRequest;
+use App\Models\User;
+use App\Models\UserNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +44,19 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    public function applyVolunteer(VolunteerApplicationRequest $request): RedirectResponse
+    {
+        $user = $request->user();
+        $this->authorize('update', $user);
+        $user->volunteer_status = VolunteerStatus::Pending;
+        $user->save();
+        foreach (User::where('role', Role::Admin->value)->get() as $admin) {
+            UserNotification::create(['user_id' => $admin->id, 'message' => 'Pengajuan relawan: '.$user->name.' ('.$user->email.'). Alasan: '.$request->validated('motivation')]);
+        }
+
+        return Redirect::route('profile.edit')->with('status', 'Pengajuan relawan dikirim untuk ditinjau admin.');
     }
 
     /**

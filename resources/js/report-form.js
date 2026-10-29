@@ -57,8 +57,8 @@ const preview = document.getElementById('photo-preview');
 photoInput?.addEventListener('change', () => {
     preview.replaceChildren();
     const files = [...photoInput.files];
-    if (files.length > 3 || files.some((file) => file.size > 5 * 1024 * 1024)) {
-        preview.textContent = 'Pilih maksimal tiga foto, masing-masing paling besar 5 MB.';
+    if (files.length > 3 || files.some((file) => file.size > 1024 * 1024)) {
+        preview.textContent = 'Pilih maksimal tiga foto, masing-masing paling besar 1 MB.';
         photoInput.value = '';
         return;
     }

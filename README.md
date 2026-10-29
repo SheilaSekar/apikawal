@@ -97,6 +97,10 @@ composer check
 
 Menjalankan Pint `--test`, `php artisan test`, dan `npm run build`. Untuk memformat kode PHP: `vendor/bin/pint`.
 
+## Deployment
+
+Panduan deployment container ada di [docs/DEPLOY.md](docs/DEPLOY.md): Render/platform Docker memakai Dockerfile utama, sedangkan Vercel memakai Dockerfile FrankenPHP khusus. Jalur Vercel mensyaratkan MySQL eksternal dan membatasi setiap foto laporan menjadi 1 MB agar total request tetap di bawah limit payload Functions. Migrasi database dijalankan terpisah sebelum menerima trafik; container tidak menjalankan migrasi otomatis saat startup.
+
 ## Struktur penting
 
 `app/Domain`, `app/Services`, `app/Http`, `app/Models`, `app/Policies`, `database/migrations`, `database/seeders`, `resources/views`, `resources/js`, `routes`, `docs`.

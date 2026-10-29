@@ -25,7 +25,7 @@ class StoreReportRequest extends FormRequest
             'estimated_area_ha' => ['nullable', 'numeric', 'min:0', 'max:100000'],
             'description' => ['nullable', 'string', 'max:2000'],
             'photos' => ['nullable', 'array', 'max:3'],
-            'photos.*' => ['file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'photos.*' => ['file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:1024'],
         ];
     }
 }

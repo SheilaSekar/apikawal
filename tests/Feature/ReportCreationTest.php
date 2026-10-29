@@ -77,4 +77,14 @@ class ReportCreationTest extends TestCase
         $payload['photos'] = array_map(fn ($index) => UploadedFile::fake()->image("evidence{$index}.png"), range(1, 4));
         $this->actingAs($secondUser)->post('/lapor', $payload)->assertSessionHasErrors('photos');
     }
+
+    public function test_photos_larger_than_one_megabyte_are_rejected(): void
+    {
+        $user = User::factory()->create();
+        $payload = $this->payload();
+        $payload['photos'] = [UploadedFile::fake()->image('oversized.jpg')->size(1025)];
+
+        $this->actingAs($user)->post('/lapor', $payload)->assertSessionHasErrors('photos.0');
+        $this->assertDatabaseCount('reports', 0);
+    }
 }

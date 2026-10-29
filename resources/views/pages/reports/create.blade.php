@@ -23,7 +23,7 @@
             <fieldset><legend class="form-label">Tanda yang terlihat</legend><div class="mt-2 flex flex-wrap gap-4">@foreach (['asap' => 'Asap', 'api' => 'Api', 'bara' => 'Bara'] as $value => $label)<label class="inline-flex min-h-11 items-center gap-2"><input type="checkbox" name="signs[]" value="{{ $value }}" @checked(in_array($value, old('signs', []), true))>{{ $label }}</label>@endforeach</div></fieldset>
             <label class="form-label">Perkiraan luas (hektare, opsional)<input class="form-control" type="number" min="0" step="0.1" name="estimated_area_ha" value="{{ old('estimated_area_ha') }}"></label>
             <label class="form-label">Deskripsi<textarea class="form-control" name="description" rows="4" maxlength="2000">{{ old('description') }}</textarea></label>
-            <label class="form-label">Foto bukti (maksimal 3, 5 MB per foto)<input id="report-photos" class="form-control" type="file" name="photos[]" accept="image/jpeg,image/png,image/webp" multiple></label>
+            <label class="form-label">Foto bukti (maksimal 3, 1 MB per foto)<input id="report-photos" class="form-control" type="file" name="photos[]" accept="image/jpeg,image/png,image/webp" multiple></label>
             <div id="photo-preview" class="grid grid-cols-3 gap-2" aria-live="polite"></div>
             <p class="text-sm text-slate-600">Foto diproses ulang, ukuran maksimal 1280 px, dan metadata foto dibuang.</p>
             <button class="button button-primary" type="submit">Kirim laporan</button>

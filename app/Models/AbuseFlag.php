@@ -18,4 +18,9 @@ class AbuseFlag extends Model
     {
         return $this->belongsTo(Report::class);
     }
+
+    public function reporter(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'flagged_by');
+    }
 }

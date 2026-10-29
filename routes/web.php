@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\Report\ReportAbuseController;
@@ -16,7 +17,17 @@ Route::view('/tentang', 'pages.about')->name('about');
 Route::get('/dashboard', [PublicPageController::class, 'dashboard'])->middleware(['auth', 'active'])->name('dashboard');
 Route::get('/petugas', [PublicPageController::class, 'officer'])->middleware(['auth', 'role:petugas,admin'])->name('officer.index');
 Route::post('/notifikasi/{notification}/baca', [PublicPageController::class, 'readNotification'])->middleware(['auth', 'active'])->name('notifications.read');
-Route::view('/admin', 'pages.admin')->middleware(['auth', 'role:admin'])->name('admin.index');
+Route::middleware(['auth', 'active', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+    Route::patch('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
+    Route::patch('/reports/{report}/moderasi', [AdminController::class, 'moderate'])->name('moderation.approve');
+    Route::patch('/flags/{flag}', [AdminController::class, 'resolveFlag'])->name('flags.resolve');
+    Route::put('/bobot', [AdminController::class, 'updateWeights'])->name('weights.update');
+    Route::post('/bobot/reset', [AdminController::class, 'resetWeights'])->name('weights.reset');
+    Route::post('/hotspots', [AdminController::class, 'importHotspots'])->name('hotspots.import');
+    Route::post('/grid/recompute', [AdminController::class, 'recompute'])->name('grid.recompute');
+    Route::get('/ekspor', [AdminController::class, 'export'])->name('export');
+});
 
 Route::get('/laporan/{report:code}', [ReportController::class, 'show'])->name('reports.show');
 Route::get('/foto/{photo}', [ReportPhotoController::class, 'show'])->name('reports.photos.show');

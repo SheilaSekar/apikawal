@@ -4,9 +4,9 @@
 - [x] Fase 0 — Fondasi Laravel, Breeze Blade, locale id, layout, Geo, composer check (commit `3e0935b`)
 - [x] Fase 1 — Auth dan peran (commit `a8867a4`)
 - [x] Fase 2 — Lapor, foto, duplikat, dan rate limit (commit `462f6bd`)
-- [x] Fase 3 — Verifikasi, prioritas, state machine, dan test (composer check lulus)
-- [ ] Fase 4 — Peta, antrean petugas, dashboard, dan landing
-- [ ] Fase 5 — Admin
+- [x] Fase 3 — Verifikasi, prioritas, state machine, dan test (commit `730f238`)
+- [x] Fase 4 — Peta, antrean petugas, dashboard, dan landing (commit `0b8be9b`)
+- [x] Fase 5 — Admin (composer check lulus)
 - [ ] Fase 6 — Analitik dan API
 - [ ] Fase 7 — Seed dan dokumentasi
 - [ ] Fase 8 — Polishing, keamanan, deploy, dan penutupan
@@ -37,8 +37,8 @@
 - Commit: menunggu.
 
 ## Fase berikutnya
-- [ ] Fase 4 — Peta, antrean petugas, dashboard, dan landing
-- [ ] Fase 5 — Admin
+- [x] Fase 4 — Peta, antrean petugas, dashboard, dan landing (commit `0b8be9b`)
+- [x] Fase 5 — Admin (composer check lulus)
 - [ ] Fase 6 — Analitik dan API
 - [ ] Fase 7 — Seed dan dokumentasi
 - [ ] Fase 8 — Polishing, keamanan, deploy, dan penutupan
@@ -54,4 +54,9 @@
 - [x] Peta responsif memakai Leaflet dari bundle Vite, filter, simbol status + warna prioritas, layer hotspot 24 jam opsional, daftar alternatif, dan koordinat publik dibulatkan.
 - [x] Dashboard berisi laporan saya, antrian verifikasi, notifikasi yang dapat ditandai dibaca, reputasi dan peran; antrean petugas memakai urutan prioritas/waktu.
 - Validasi: `composer check` lulus — Pint passed; 47 test (135 assertions); Vite production build lulus.
+- Commit: menunggu.
+
+## Fase 5 — Admin
+- [x] Panel pengguna/peran dan status aktif, moderasi laporan, resolusi abuse flag, perubahan/reset bobot dengan jumlah wajib 100, impor CSV hotspot, hitung ulang grid, ekspor laporan CSV.
+- Validasi: `composer check` lulus — Pint passed; 49 test (141 assertions); Vite production build lulus.
 - Commit: menunggu.

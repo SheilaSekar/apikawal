@@ -49,3 +49,9 @@
 - Pemeriksaan PHP menggunakan PHP 8.3 melalui PATH dan konfigurasi ekstensi lokal.
 - Git memerlukan safe.directory per proses karena metadata `.git` dimiliki akun sandbox; konfigurasi global tidak diubah.
 - Repo awal tidak memiliki artefak Next.js/Node/Prisma.
+## Fase 4 — Peta, landing, dasbor, antrean
+- [x] Landing menampilkan KPI, alur kerja, laporan terbaru, tautan lapor/peta, dan batasan produk.
+- [x] Peta responsif memakai Leaflet dari bundle Vite, filter, simbol status + warna prioritas, layer hotspot 24 jam opsional, daftar alternatif, dan koordinat publik dibulatkan.
+- [x] Dashboard berisi laporan saya, antrian verifikasi, notifikasi yang dapat ditandai dibaca, reputasi dan peran; antrean petugas memakai urutan prioritas/waktu.
+- Validasi: `composer check` lulus — Pint passed; 47 test (135 assertions); Vite production build lulus.
+- Commit: menunggu.

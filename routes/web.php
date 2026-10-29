@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\Report\ReportAbuseController;
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\Report\ReportPhotoController;
@@ -8,10 +9,13 @@ use App\Http\Controllers\Report\ReportStatusController;
 use App\Http\Controllers\Report\ReportVerificationController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'pages.landing')->name('home');
+Route::get('/', [PublicPageController::class, 'landing'])->name('home');
+Route::get('/peta', [PublicPageController::class, 'map'])->name('map');
+Route::get('/peta/data', [PublicPageController::class, 'mapData'])->name('map.data');
 Route::view('/tentang', 'pages.about')->name('about');
-Route::view('/dashboard', 'dashboard')->middleware(['auth', 'active'])->name('dashboard');
-Route::view('/petugas', 'pages.officer')->middleware(['auth', 'role:petugas,admin'])->name('officer.index');
+Route::get('/dashboard', [PublicPageController::class, 'dashboard'])->middleware(['auth', 'active'])->name('dashboard');
+Route::get('/petugas', [PublicPageController::class, 'officer'])->middleware(['auth', 'role:petugas,admin'])->name('officer.index');
+Route::post('/notifikasi/{notification}/baca', [PublicPageController::class, 'readNotification'])->middleware(['auth', 'active'])->name('notifications.read');
 Route::view('/admin', 'pages.admin')->middleware(['auth', 'role:admin'])->name('admin.index');
 
 Route::get('/laporan/{report:code}', [ReportController::class, 'show'])->name('reports.show');

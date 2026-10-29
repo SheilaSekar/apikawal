@@ -1,19 +1,9 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Dasbor APIKAWAL
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <p>Selamat datang, {{ auth()->user()->name }}.</p>
-                    <p class="mt-2">Peran: <strong>{{ auth()->user()->role->label() }}</strong> · Reputasi: {{ auth()->user()->reputation }}</p>
-                    <p class="mt-2">Anda belum mengirim laporan. <a class="underline" href="{{ route('home') }}">Pelajari alur APIKAWAL</a>.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+﻿<x-app-layout>
+    <x-slot name="header"><h2 class="font-semibold text-xl text-gray-800 leading-tight">Dasbor APIKAWAL</h2></x-slot>
+    <div class="py-8"><div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+        <section class="rounded-lg bg-white p-6 shadow-sm"><h1 class="text-xl font-bold">Halo, {{ auth()->user()->name }}</h1><p class="mt-2">Peran: {{ auth()->user()->role->label() }} · Reputasi: {{ auth()->user()->reputation }}</p><p class="mt-2">Status relawan: {{ auth()->user()->volunteer_status->label() }}</p><a href="{{ route('reports.create') }}" class="mt-4 inline-flex rounded bg-orange-700 px-4 py-3 text-white">Buat laporan baru</a></section>
+        <section class="rounded-lg bg-white p-6 shadow-sm"><h2 class="text-lg font-bold">Laporan saya</h2>@forelse($mine as $report)<a class="block border-b py-3" href="{{ route('reports.show', $report->code) }}"><strong>{{ $report->code }}</strong> · {{ $report->status->label() }} · Prioritas {{ $report->priority_score }}</a>@empty<p class="mt-3">Anda belum mengirim laporan.</p>@endforelse{{ $mine->links() }}</section>
+        <section class="rounded-lg bg-white p-6 shadow-sm"><h2 class="text-lg font-bold">Perlu verifikasi</h2>@forelse($toVerify as $report)<a class="block border-b py-3" href="{{ route('reports.show', $report->code) }}">{{ $report->code }} · {{ $report->land_type->label() }} · {{ $report->created_at->diffForHumans() }}</a>@empty<p class="mt-3">Tidak ada laporan yang menunggu dukungan.</p>@endforelse</section>
+        <section class="rounded-lg bg-white p-6 shadow-sm"><h2 class="text-lg font-bold">Notifikasi</h2>@forelse($notifications as $notification)<div class="flex justify-between gap-4 border-b py-3"><p>{{ $notification->message }}</p>@if(!$notification->read_at)<form method="POST" action="{{ route('notifications.read', $notification) }}">@csrf<button class="underline">Tandai dibaca</button></form>@else<span class="text-slate-500">Dibaca</span>@endif</div>@empty<p class="mt-3">Belum ada notifikasi.</p>@endforelse</section>
+    </div></div>
 </x-app-layout>

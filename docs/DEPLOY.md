@@ -24,7 +24,7 @@ Container menjalankan `php artisan migrate --force` saat startup dan berhenti de
 ### Deploy ke Render (langkah demi langkah)
 
 1. Buat database MySQL eksternal pada penyedia yang mendukung koneksi dari Render, misalnya Aiven, TiDB Cloud, Railway MySQL, atau layanan MySQL sejenis. Render tidak menyediakan database MySQL managed. Catat host, port, nama database, username, dan password dari dashboard penyedia database. Pastikan aturan jaringan database mengizinkan koneksi dari service Render.
-2. Buat Blueprint dari repository ini atau buat Web Service baru dan pilih runtime **Docker**. Root directory harus root repository, yaitu direktori yang berisi `artisan`, `composer.json`, dan `Dockerfile`. `render.yaml` mendefinisikan service Docker dan health check `/api/health`.
+2. Buat Blueprint dari repository ini atau buat Web Service baru dan pilih runtime **Docker**. Root directory harus root repository, yaitu direktori yang berisi `artisan`, `composer.json`, dan `Dockerfile`. `render.yaml` mendefinisikan service Docker dan health check `/api/health`. Pastikan `plan: free` tetap ada; Blueprint tanpa plan ini dapat memakai plan Starter berbayar dan meminta kartu pembayaran. Region service ditetapkan `singapore`, region Render terdekat untuk pengguna Indonesia. Pilih region database yang sama atau sedekat mungkin dengan Singapore untuk mengurangi latensi. Region service Render tidak bisa diubah setelah dibuat; untuk pindah region, buat service baru dan migrasikan konfigurasi/data.
 3. Isi environment di Render. Blueprint memberi nilai untuk pengaturan nonrahasia; isikan nilai yang ditandai `sync: false` pada dashboard:
    - `APP_KEY`: dari menjalankan `php artisan key:generate --show` secara lokal. Masukkan hasilnya langsung ke environment Render; jangan commit atau membagikan nilainya.
    - `APP_URL`: URL HTTPS service Render setelah dibuat, atau domain khusus yang dipasang.
@@ -33,7 +33,7 @@ Container menjalankan `php artisan migrate --force` saat startup dan berhenti de
    - `TRUSTED_PROXIES`: gunakan alamat/CIDR proxy tepercaya jika platform menyediakannya. Jika alamat proxy berubah-ubah dan platform memastikan request selalu melewati proxy yang memvalidasi/menimpa `X-Forwarded-*`, `*` dapat dipakai sebagai trade-off. Wildcard mempercayai header forwarding dari semua sumber yang dapat mencapai aplikasi; jika origin dapat diakses langsung atau proxy tidak membersihkan header, klien dapat memalsukan IP/skema/host yang dipercaya aplikasi. Jangan gunakan wildcard tanpa memastikan batas jaringan dan perilaku proxy platform.
 4. Biarkan `DB_CONNECTION=mysql`, `APP_ENV=production`, `APP_DEBUG=false`, `SESSION_DRIVER=database`, `CACHE_STORE=database`, `QUEUE_CONNECTION=sync`, `LOG_CHANNEL=stderr`, dan `SESSION_SECURE_COOKIE=true`. Render menyuntikkan `PORT`; jangan menetapkan port service berbeda dari port yang didengarkan aplikasi. Pertahankan `SEED_ON_BOOT=false` untuk startup normal.
 5. Deploy service. Entrypoint menunggu DB dengan lima percobaan migrasi, masing-masing dibatasi 60 detik, lalu meng-cache konfigurasi/route/view dan memulai Apache. Periksa log deploy jika migrasi gagal; pastikan firewall, hostname, port, kredensial, dan TLS database sesuai provider.
-6. Untuk seed pertama pada free tier, set `SEED_DEMO=true` dan `SEED_ON_BOOT=true`, lalu deploy. Entrypoint menjalankan seeder setelah migrasi. Setelah deploy berhasil dan data demo tersedia, kembalikan **keduanya** ke `false` agar seeder tidak berjalan lagi saat restart berikutnya. Alternatifnya, dari lokal arahkan `.env` sementara ke database produksi dengan `SEED_DEMO=true`, lalu jalankan `php artisan db:seed --force`; pulihkan `.env` lokal setelah selesai. Seeder bersifat idempoten.
+6. Untuk seed pertama pada free tier, set `SEED_DEMO=true` dan `SEED_ON_BOOT=true`, lalu deploy. Entrypoint menjalankan seeder setelah migrasi. Setelah deploy berhasil dan data demo tersedia, kembalikan **keduanya** ke `false`, lalu deploy ulang agar seeder tidak berjalan lagi saat restart berikutnya. Alternatifnya, dari lokal arahkan `.env` sementara ke database produksi dengan `SEED_DEMO=true`, lalu jalankan `php artisan db:seed --force`; pulihkan `.env` lokal setelah selesai. Seeder bersifat idempoten.
 7. Verifikasi setelah deploy:
    - Buka `/` dan `/peta` melalui HTTPS.
    - Buka `/api/health`; pastikan HTTP 200 dan status database `ok`.
@@ -41,6 +41,8 @@ Container menjalankan `php artisan migrate --force` saat startup dan berhenti de
    - Pastikan data tetap ada setelah service restart (database eksternal, bukan SQLite/container disk).
 
 Nilai proxy yang dapat dipercaya berbeda menurut platform dan dapat berubah. Jangan mengubah default kode menjadi wildcard; tentukan nilai dari dokumentasi jaringan/platform dan evaluasi trade-off di atas.
+
+Free Web Service Render akan tidur setelah 15 menit tanpa request masuk dan biasanya perlu sekitar satu menit untuk bangun saat menerima request berikutnya. Ini perilaku normal free tier, bukan kegagalan health check. Render tidak menyediakan perubahan region untuk service yang sudah dibuat; rencanakan `singapore` sebelum membuat Blueprint.
 
 ### Menjalankan container lokal
 

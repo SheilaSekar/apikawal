@@ -1,4 +1,4 @@
-﻿# APIKAWAL — Progress
+# APIKAWAL — Progress
 
 ## Checklist fase (Laravel + Blade + Tailwind + MySQL)
 - [x] Fase 0 — Fondasi Laravel (commit `3e0935b`)
@@ -62,5 +62,3 @@
 - Tim perlu mengisi nama anggota/logo, memilih data hotspot nyata setelah memeriksa lisensi, mengubah password demo, memeriksa OSM tile policy, mencoba deploy, dan menguji tampilan pada layar 360px.
 - Belum ada remote Git terkonfigurasi; repository belum dipush/dipastikan public. Tim perlu menambahkan URL remote GitHub yang benar, memastikan visibility public, lalu push commit.
 - Tidak ada fitur wajib bagian “tidak boleh dipotong” yang sengaja dipangkas. Integrasi resmi, WhatsApp/SMS, cuaca real-time, kalibrasi pakar, model prediksi, dan PWA/offline tetap proyeksi.
-
-

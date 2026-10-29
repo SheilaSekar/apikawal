@@ -51,4 +51,15 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
         $response->assertRedirect('/');
     }
+
+    public function test_logout_is_post_only_and_navigation_uses_csrf_forms(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->get('/logout')->assertMethodNotAllowed();
+        $this->actingAs($user)->get('/dashboard')
+            ->assertOk()
+            ->assertSee('method="POST" action="'.route('logout').'"', false)
+            ->assertSee('name="_token"', false);
+    }
 }

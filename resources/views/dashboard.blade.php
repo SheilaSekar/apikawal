@@ -1,4 +1,4 @@
-﻿<x-app-layout>
+<x-app-layout>
     <x-slot name="header"><h1 class="font-semibold text-xl text-gray-800 leading-tight">Dasbor APIKAWAL</h1></x-slot>
     <div class="py-8"><div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
         <section class="rounded-lg bg-white p-6 shadow-sm"><h2 class="text-xl font-bold">Halo, {{ auth()->user()->name }}</h2><p class="mt-2">Peran: {{ auth()->user()->role->label() }} · Reputasi: {{ auth()->user()->reputation }}</p><p class="mt-2">Status relawan: {{ auth()->user()->volunteer_status->label() }}</p><a href="{{ route('reports.create') }}" class="mt-4 inline-flex min-h-[44px] items-center rounded bg-orange-700 px-4 py-3 text-white">Buat laporan baru</a></section>

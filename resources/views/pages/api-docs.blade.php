@@ -1,4 +1,4 @@
-﻿@extends('layouts.site')
+@extends('layouts.site')
 @section('title', 'Dokumentasi API — APIKAWAL')
 @section('content')<article class="site-container prose-section py-10"><p class="eyebrow">INTEGRASI TERBUKA</p><h1 class="section-title">API publik v1</h1><p>Endpoint hanya-baca, JSON, tanpa identitas pelapor. Batas permintaan 60 per menit per alamat IP; daftar dibatasi maksimal 100 item per halaman.</p>
 <h2>Daftar laporan</h2><code>GET /api/v1/reports?status=terverifikasi&amp;level=tinggi&amp;land_type=gambut&amp;since=2026-10-01&amp;page=1&amp;per_page=20</code><p>Respons berisi kode, koordinat dibulatkan 3 desimal, status, prioritas, jenis lahan, waktu, dan penanda simulasi. Tanpa foto atau deskripsi bebas.</p>

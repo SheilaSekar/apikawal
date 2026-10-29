@@ -1,4 +1,4 @@
-﻿@extends('layouts.site')
+@extends('layouts.site')
 @section('title', 'APIKAWAL — Waspada bersama')
 @section('content')
 <div class="site-container py-12 sm:py-20">

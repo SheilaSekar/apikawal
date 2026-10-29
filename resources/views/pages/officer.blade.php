@@ -1,4 +1,4 @@
-﻿@extends('layouts.site')
+@extends('layouts.site')
 @section('title', 'Antrean petugas — APIKAWAL')
 @section('content')
 <section class="site-container space-y-6 py-10"><div class="flex flex-wrap justify-between gap-4"><div><p class="eyebrow">KOORDINASI PENANGANAN</p><h1 class="section-title">Antrean petugas</h1><p class="mt-2 text-slate-600">Laporan aktif diurutkan berdasarkan prioritas, lalu waktu masuk.</p></div><a class="button button-secondary" href="{{ route('map') }}">Lihat peta lengkap</a></div>

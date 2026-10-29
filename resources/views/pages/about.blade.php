@@ -1,4 +1,4 @@
-﻿@extends('layouts.site')
+@extends('layouts.site')
 @section('title', 'Tentang APIKAWAL')
 @section('content')
 <article class="site-container prose-section py-10"><p class="eyebrow">TENTANG APIKAWAL</p><h1 class="hero-title">Kolaborasi untuk respons yang lebih terarah</h1>

@@ -9,7 +9,7 @@
 - [x] Fase 5 — Admin (commit `7d5f98a`)
 - [x] Fase 6 — Analitik dan API (commit `82bd6c0`)
 - [x] Fase 7 — Seed dan dokumentasi (commit `28a95a7`)
-- [x] Fase 8 — Polishing, keamanan, deploy, penutupan (commit `c9a7d2c`)
+- [x] Fase 8 — Polishing, keamanan, deploy, penutupan (commit `a631f61`)
 
 ## Fase 0 — Fondasi
 - [x] Laravel 13.39.0 + Breeze Blade tanpa menimpa file pelindung; PHP 8.3.36, SQLite lokal, locale id, config, enum, Geo, layout dan komponen dasar.
@@ -52,7 +52,7 @@
 - Validasi akhir `composer check`: Pint passed; 58 test (195 assertions); Vite production build lulus.
 - Seed final dua kali pada SQLite sementara: 30 laporan, 315 hotspot, 32 POI, 12 akun, 192 sel; file sementara dibersihkan.
 - Deploy online tidak dilakukan karena tidak ada kredensial hosting; instruksi dan file deploy disiapkan.
-- Commit: `c9a7d2c` (`fix: harden access and complete responsive workflows`).
+- Commit: `a631f61` (`fix: harden access and complete responsive workflows`).
 
 ## Catatan kondisi dan tindak lanjut manual
 - PHP checks memakai PHP 8.3.36 dan `.local/php/conf.d`; konfigurasi lokal diabaikan Git.
@@ -60,5 +60,7 @@
 - Git memakai `safe.directory` per command karena kepemilikan `.git` berbeda; konfigurasi global tidak diubah.
 - Default `TRUSTED_PROXIES` lokal adalah 127.0.0.1; sebelum deploy isi alamat/CIDR proxy hosting.
 - Tim perlu mengisi nama anggota/logo, memilih data hotspot nyata setelah memeriksa lisensi, mengubah password demo, memeriksa OSM tile policy, mencoba deploy, dan menguji tampilan pada layar 360px.
+- Belum ada remote Git terkonfigurasi; repository belum dipush/dipastikan public. Tim perlu menambahkan URL remote GitHub yang benar, memastikan visibility public, lalu push commit.
 - Tidak ada fitur wajib bagian “tidak boleh dipotong” yang sengaja dipangkas. Integrasi resmi, WhatsApp/SMS, cuaca real-time, kalibrasi pakar, model prediksi, dan PWA/offline tetap proyeksi.
+
 

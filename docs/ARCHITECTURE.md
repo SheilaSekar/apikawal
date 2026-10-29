@@ -1,4 +1,4 @@
-﻿# Arsitektur
+# Arsitektur
 
 ```mermaid
 flowchart LR

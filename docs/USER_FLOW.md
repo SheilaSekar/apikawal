@@ -1,4 +1,4 @@
-﻿# User flow
+# User flow
 
 ```mermaid
 flowchart TD

@@ -1,4 +1,4 @@
-﻿# Asumsi dan Keputusan Implementasi
+# Asumsi dan Keputusan Implementasi
 
 - Proyek memakai Laravel 13.39.0 dan Laravel Breeze 2.4.2 untuk autentikasi Blade.
 - Lokal menggunakan SQLite agar tidak tergantung layanan MySQL; deployment target MySQL/MariaDB.

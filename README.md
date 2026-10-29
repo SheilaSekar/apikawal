@@ -1,4 +1,4 @@
-﻿# APIKAWAL
+# APIKAWAL
 
 **Sistem Kolaborasi Deteksi Dini, Verifikasi, dan Respons Risiko Kebakaran Lahan Berbasis Informasi Spasial** — prototipe kompetisi UINIC 8.0.
 

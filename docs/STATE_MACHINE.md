@@ -1,4 +1,4 @@
-﻿# State machine respons
+# State machine respons
 
 ```mermaid
 stateDiagram-v2

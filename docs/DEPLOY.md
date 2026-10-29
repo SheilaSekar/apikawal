@@ -1,4 +1,4 @@
-﻿# Deploy APIKAWAL
+# Deploy APIKAWAL
 
 Layanan gratis, kuota, buildpack, persistence, dan ketentuan penggunaan sering berubah. Tim harus memeriksa ketentuan terbaru sebelum memilih hosting dan mencoba deploy **hello world** lebih dahulu. Deployment belum dilakukan karena belum ada kredensial/akun hosting.
 

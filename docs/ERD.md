@@ -1,4 +1,4 @@
-﻿# ERD APIKAWAL
+# ERD APIKAWAL
 
 ```mermaid
 erDiagram

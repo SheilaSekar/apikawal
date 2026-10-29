@@ -1,4 +1,4 @@
-﻿# Daftar screenshot proposal
+# Daftar screenshot proposal
 
 Ambil screenshot browser dengan data demo dan badge DATA SIMULASI terlihat bila relevan:
 

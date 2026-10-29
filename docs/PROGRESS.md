@@ -62,3 +62,14 @@
 - Tim perlu mengisi nama anggota/logo, memilih data hotspot nyata setelah memeriksa lisensi, mengubah password demo, memeriksa OSM tile policy, mencoba deploy, dan menguji tampilan pada layar 360px.
 - Belum ada remote Git terkonfigurasi; repository belum dipush/dipastikan public. Tim perlu menambahkan URL remote GitHub yang benar, memastikan visibility public, lalu push commit.
 - Tidak ada fitur wajib bagian “tidak boleh dipotong” yang sengaja dipangkas. Integrasi resmi, WhatsApp/SMS, cuaca real-time, kalibrasi pakar, model prediksi, dan PWA/offline tetap proyeksi.
+
+## Audit akhir polishing (29 Oktober 2026)
+- [x] Bersihkan mojibake yang tersisa di judul, pemisah, atribusi OSM, dan tampilan skor; logo api kini SVG inline dekoratif. Layout utama memakai `meta charset="utf-8"`.
+- [x] Normalisasi README, `docs/`, `resources/`, `lang/`, dan `config/` ke UTF-8 tanpa BOM; pemeriksaan strict UTF-8 dan pencarian mojibake selesai tanpa temuan tersisa.
+- [x] Verifikasi logout: desktop, mobile, halaman verifikasi memakai POST + CSRF; test memastikan logout mengakhiri sesi, GET `/logout` ditolak, dan dashboard merender form POST bertoken.
+- [x] Audit route/form mutasi: route perubahan memakai POST/PUT/PATCH/DELETE dan form membawa CSRF. Unduhan CSV tetap GET karena hanya membaca data. Tidak ditemukan `{!! !!}` di Blade.
+- [x] `php artisan test`: 60 test, 214 assertion lulus. `composer check`: Pint lulus, test lulus, Vite production build lulus.
+- [x] Uji HTTP lokal: `GET /` memberi 200 (`text/html; charset=utf-8`) dengan banner darurat dan logo SVG; `GET /api/health` memberi 200 dan status basis data `ok`.
+- [x] Tampilan daftar peta dan 10 sel analitik memakai kartu bertumpuk pada layar kecil agar data tetap terbaca tanpa tabel melebar.
+- [ ] Pemeriksaan visual pada browser lebar 360px belum dilakukan; perlu dicek manual untuk landing, peta, form lapor, detail, dashboard, antrean, admin, dan analitik. Build/test tidak mengukur clipping, rasio kontras visual, atau navigasi keyboard secara langsung.
+- Audit dokumentasi proposal: fitur aktif tetap dijelaskan sebagai prototipe, simulasi, atau heuristik sesuai batasan; integrasi instansi, komunikasi eksternal, cuaca real-time, kalibrasi pakar, prediksi, dan offline tetap proyeksi.

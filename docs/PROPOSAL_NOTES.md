@@ -1,4 +1,4 @@
-﻿# Catatan proposal
+# Catatan proposal
 
 ## Fitur yang terimplementasi
 - Form pelaporan lapangan dan upload foto yang divalidasi/re-encode.

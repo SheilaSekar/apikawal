@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Controllers\Report;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Report\CheckDuplicateRequest;
+use App\Http\Requests\Report\StoreReportRequest;
+use App\Models\Report;
+use App\Services\ReportService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
+class ReportController extends Controller
+{
+    public function create(): View
+    {
+        $this->authorize('create', Report::class);
+
+        return view('pages.reports.create');
+    }
+
+    public function store(StoreReportRequest $request, ReportService $reports): RedirectResponse
+    {
+        $this->authorize('create', Report::class);
+        $report = $reports->create($request->user(), $request->validated());
+        $message = $report->parent_id ? 'Laporan serupa sudah ada. Laporanmu menambah dukungan.' : 'Laporan berhasil dikirim.';
+
+        return redirect()->route('reports.show', $report->code)->with('status', $message);
+    }
+
+    public function checkDuplicate(CheckDuplicateRequest $request, ReportService $reports): JsonResponse
+    {
+        return response()->json($reports->checkDuplicate($request->user(), (float) $request->validated('lat'), (float) $request->validated('lng')));
+    }
+
+    public function show(Report $report): View
+    {
+        $this->authorize('view', $report);
+
+        return view('pages.reports.show', ['report' => $report->load(['photos', 'verifications'])]);
+    }
+}

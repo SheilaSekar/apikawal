@@ -34,4 +34,7 @@ a { color: inherit; }
 .prose-section h2 { margin-top: 2rem; font-size: 1.5rem; font-weight: 800; }
 .prose-section p, .prose-section ul { margin-top: .75rem; color: #334155; }
 .prose-section ul { list-style: disc; padding-left: 1.5rem; }
+.report-map { min-height: 18rem; border-radius: .75rem; border: 1px solid #cbd5e1; z-index: 0; }
+.form-label { display: grid; gap: .45rem; font-size: .95rem; font-weight: 700; }
+.form-control { width: 100%; min-height: 44px; border: 1px solid #94a3b8; border-radius: .55rem; background: white; padding: .6rem .7rem; color: #0f172a; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }

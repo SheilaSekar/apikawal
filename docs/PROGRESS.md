@@ -2,8 +2,8 @@
 
 ## Checklist fase (stack Laravel + Blade + Tailwind + MySQL)
 - [x] Fase 0 — Fondasi Laravel, Breeze Blade, locale id, layout, Geo, `composer check` (commit `3e0935b`)
-- [x] Fase 1 — Auth dan peran (`composer check` lulus)
-- [ ] Fase 2 — Lapor, foto, duplikat, dan rate limit
+- [x] Fase 1 — Auth dan peran (`composer check` lulus, commit `a8867a4`)
+- [x] Fase 2 — Lapor, foto, duplikat, dan rate limit (`composer check` lulus)
 - [ ] Fase 3 — Verifikasi, prioritas, state machine, dan test
 - [ ] Fase 4 — Peta, antrean petugas, dashboard, dan landing
 - [ ] Fase 5 — Admin
@@ -36,4 +36,7 @@
 - Repo awal tidak memiliki artefak Next.js/Node/Prisma.
 - Fase 1 selesai: registrasi publik hanya mendapat role warga dari default DB; URL `/masuk` dan `/daftar`; Breeze login throttle dan pesan generik; user aktif diperiksa saat login dan route privat; middleware role; UserPolicy + otorisasi endpoint profil; UserNotification; dashboard awal; halaman `/petugas` dan `/admin` dilindungi role.
 - Validasi Fase 1: `composer check` lulus — Pint passed; 33 test passed (79 assertions); Vite production build lulus.
-- Komit Fase 1: menunggu.
+- Komit Fase 1: `a8867a4` (`feat: add role-aware authentication`).
+- Fase 2 selesai: laporan dan foto disimpan di DB, MIME diperiksa dengan finfo/getimagesize, gambar di-encode ulang ke JPEG maksimal 1280 px, peta pin/geolokasi, cek duplikat, dukungan otomatis untuk duplikat, kode AK, route foto cache, dan rate limit 5 laporan/jam.
+- Validasi Fase 2: `composer check` lulus — Pint passed; 40 test passed (103 assertions); Vite production build lulus.
+- Komit Fase 2: menunggu.

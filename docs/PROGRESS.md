@@ -8,7 +8,7 @@
 - [x] Fase 4 — Peta, antrean petugas, dashboard, dan landing (commit `0b8be9b`)
 - [x] Fase 5 — Admin (commit `7d5f98a`)
 - [x] Fase 6 — Analitik dan API (composer check lulus)
-- [ ] Fase 7 — Seed dan dokumentasi
+- [x] Fase 7 — Seed dan dokumentasi (composer check lulus)
 - [ ] Fase 8 — Polishing, keamanan, deploy, dan penutupan
 
 ## Fase 0 — Fondasi
@@ -42,8 +42,16 @@
 - Validasi: `composer check` lulus — Pint; 52 test (154 assertions); Vite production build lulus.
 - Commit: menunggu.
 
+## Fase 7 — Seed dan dokumentasi
+- [x] Seeder idempoten dengan akun opsional `SEED_DEMO=true`, 32 POI, 315 hotspot simulasi, 30 laporan semua status, dukungan, timeline, foto GD, skor prioritas, grid.
+- [x] Factory utama, perintah impor hotspot dan hitung grid, FK notifikasi, README dan seluruh dokumen wajib, Docker/shared-hosting panduan.
+- Validasi: seeder berhasil dua kali pada SQLite disposable: 30 laporan, 315 hotspot, 32 POI, 12 akun, 221 sel grid. `composer check` lulus; 52 test (154 assertions), Vite build lulus.
+- Catatan: satu percobaan inspeksi PDO langsung tanpa scan-dir gagal menemukan driver; diverifikasi kembali lewat Artisan dengan konfigurasi PHP 8.3 yang benar.
+- Commit: menunggu.
+
 ## Catatan kondisi
 - PHP checks menggunakan PHP 8.3.36 dengan `.local/php/conf.d`; konfigurasi lokal diabaikan Git.
 - Toolchain terverifikasi: PHP 8.3.36, Composer 2.8.12, Node 24.21.0, npm 11.19.0, Git 2.53.0.
 - Git memakai safe.directory per proses karena kepemilikan `.git` berbeda; konfigurasi global tidak diubah.
 - Repository awal tidak memiliki artefak Next.js/Node backend/Prisma.
+

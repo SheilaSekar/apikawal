@@ -1,9 +1,14 @@
-# Asumsi dan Keputusan Implementasi
+﻿# Asumsi dan Keputusan Implementasi
 
-- Proyek memakai Laravel 13.39.0 (rilis stabil yang dapat dipasang dengan PHP 8.3.36) dan Laravel Breeze 2.4.2 untuk autentikasi Blade.
-- Pengembangan lokal dikonfigurasi ke SQLite agar tidak bergantung pada layanan MySQL lokal. Deploy tetap ditargetkan ke MySQL/MariaDB; migrasi dan query aplikasi dijaga DB-agnostic.
-- PHP 8.3 menyediakan `php_pdo_sqlite.dll`, tetapi ekstensi tidak aktif pada php.ini Laragon. Agar konfigurasi mesin tidak diubah, proyek menaruh `extension=sqlite3` dan `extension=pdo_sqlite` di `.local/php/conf.d/99-apikawal-sqlite.ini`, mengabaikan `.local/` di Git, dan menjalankan command dengan `PHP_INI_SCAN_DIR` menunjuk direktori tersebut.
-- Jika menggunakan terminal baru, aktifkan PHP 8.3 pada PATH dan set `PHP_INI_SCAN_DIR` ke `.local/php/conf.d` sebelum menjalankan Artisan/test.
-- Nama anggota dan logo lomba tetap memakai slot yang dapat diisi tim. Tidak ada aset eksternal berhak cipta yang ditambahkan.
-- Dependensi utama: Laravel Framework (routing, ORM, validasi, autentikasi/session, cache, rate limit), Breeze (scaffold auth Blade), Tailwind CSS/Vite/Alpine (UI responsif dan interaksi ringan), Leaflet (peta), Chart.js (grafik), Intervention Image (olah foto), Pint (format kode).
-- Git menandai workspace sebagai kepemilikan berbeda dari user proses. Perintah Git menggunakan `-c safe.directory=<workspace>` hanya pada pemanggilan terkait; konfigurasi global tidak diubah.
+- Proyek memakai Laravel 13.39.0 dan Laravel Breeze 2.4.2 untuk autentikasi Blade.
+- Lokal menggunakan SQLite agar tidak tergantung layanan MySQL; deployment target MySQL/MariaDB.
+- PHP 8.3.36 Laragon menyediakan DLL `pdo_sqlite`, tetapi belum aktif pada konfigurasi normal. Untuk tidak mengubah instalasi Laragon, `.local/php/conf.d/99-apikawal-sqlite.ini` (diabaikan Git) menyalakan sqlite untuk proses pemeriksaan.
+- Terminal baru perlu menambahkan PHP 8.3 ke `PATH` dan mengatur `PHP_INI_SCAN_DIR` ke `.local/php/conf.d` sebelum menjalankan Composer/Artisan.
+- `SEED_DEMO=true` mengaktifkan akun + data demonstrasi; default tidak membuat akun rahasia.
+- Demo memakai koordinat Sumatera Selatan perkiraan bbox, bukan batas administratif.
+- Identitas publik dihapus dan koordinat dibulatkan ke tiga desimal. Verifikasi jarak tidak diwajibkan karena geolokasi dapat dipalsukan.
+- Update bobot tidak menulis audit log tersendiri; perubahan bobot dibatasi admin dan total 100.
+- Data hotspot sintetis bukan pengamatan lapangan. Sumber nyata harus ditinjau lisensinya.
+- Logo UINIC dan nama tim memakai placeholder; tim wajib mengganti sebelum submission.
+- Dependensi utama: Laravel untuk routing/ORM/session/validasi/cache; Breeze untuk auth; Intervention Image 3 untuk re-encode; Tailwind/Alpine/Vite untuk UI; Leaflet untuk peta dan OSM tiles; Chart.js untuk grafik; Pint untuk format PHP; PHPUnit untuk tes.
+- Git memakai safe.directory hanya dalam proses command karena kepemilikan folder `.git` sandbox berbeda; konfigurasi global tidak diubah.

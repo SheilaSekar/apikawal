@@ -7,13 +7,12 @@ COPY vite.config.js tailwind.config.js postcss.config.js ./
 COPY public ./public
 RUN npm run build
 
-FROM dunglas/frankenphp:1-php8.3-bookworm AS base
+FROM dunglas/frankenphp:1-php8.4-bookworm AS base
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates \
+    && apt-get install -y --no-install-recommends git unzip \
     && rm -rf /var/lib/apt/lists/* \
     && cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-    && install-php-extensions gd pdo_mysql opcache \
-    && php -r 'foreach (["ctype", "fileinfo", "gd", "mbstring", "openssl", "pdo_mysql", "tokenizer", "xml"] as $extension) { if (! extension_loaded($extension)) { fwrite(STDERR, "Required PHP extension missing: {$extension}\n"); exit(1); } }'
+    && install-php-extensions intl zip gd pdo_mysql
 WORKDIR /app
 
 FROM base AS dependencies

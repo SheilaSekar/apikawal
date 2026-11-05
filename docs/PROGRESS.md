@@ -1,4 +1,4 @@
-# APIKAWAL — Progress
+﻿# APIKAWAL — Progress
 
 ## Checklist fase (Laravel + Blade + Tailwind + MySQL)
 - [x] Fase 0 — Fondasi Laravel (commit `3e0935b`)
@@ -83,4 +83,5 @@
 - Validasi S3: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build).
 - [x] S4 — Samakan layout auth/profil, dashboard, laporan, antrean, admin, analitik, peta/Leaflet, grafik, API docs, dan halaman error; CSP tetap tidak berubah.
 - Validasi S4: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build).
-- [ ] S5 — Audit aksesibilitas/kontras, reduced motion, 360/768/1280px, bersihkan CSS mati, dan dokumentasi token.
+- [x] S5 — Dokumentasikan token dan rasio kontras, audit aturan alignment serta CSS mati, hormati reduced motion, dan rapikan landing mobile setelah menemukan clipping pada preview.
+- Validasi akhir S5: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build), PHP 8.3.36. Screenshot Chrome headless terpengaruh skala viewport/layar lokal; pemeriksaan visual penuh pada viewport CSS 360/768/1280 dan halaman lain masih perlu dilakukan manual.

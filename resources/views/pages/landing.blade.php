@@ -71,7 +71,7 @@
                     @php($weight = config('apikawal.priority.weights.'.$key, 0))
                     <div class="factor-row">
                         <div class="factor-label"><span>{{ $label }}</span><strong>{{ $weight }}%</strong></div>
-                        <div class="factor-track" role="img" aria-label="Bobot {{ $label }} {{ $weight }} persen"><span style="width: {{ $weight }}%"></span></div>
+                        <progress class="factor-track" value="{{ $weight }}" max="100" aria-label="{{ $label }}: {{ $weight }} persen">{{ $weight }}%</progress>
                     </div>
                 @endforeach
                 <p class="factor-note">Bobot awal heuristik · dapat dikalibrasi bersama pakar</p>

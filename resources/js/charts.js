@@ -5,15 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const labels = JSON.parse(canvas.dataset.labels || '[]');
         const values = JSON.parse(canvas.dataset.values || '[]');
         const type = canvas.dataset.chart === 'trend' ? 'line' : 'bar';
-        const palette = ['#123b46', '#c2410c', '#0f766e', '#b45309', '#b91c1c', '#475569'];
+        const cssToken = (name, fallback) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+        const primary = cssToken('--primary', '#123b46');
+        const accent = cssToken('--accent', '#c2410c');
+        const palette = [primary, accent, cssToken('--priority-low', '#0f766e'), cssToken('--priority-medium', '#b45309'), cssToken('--priority-critical', '#b91c1c'), cssToken('--muted', '#475569')];
         const isTrend = type === 'line';
         new Chart(canvas, {
             type,
             data: { labels, datasets: [{
                 label: 'Jumlah laporan',
                 data: values,
-                borderColor: isTrend ? '#c2410c' : palette,
-                backgroundColor: isTrend ? 'rgb(194 65 12 / 14%)' : palette,
+                borderColor: isTrend ? accent : palette,
+                backgroundColor: isTrend ? `${accent}24` : palette,
                 borderWidth: isTrend ? 3 : 1,
                 pointRadius: isTrend ? 3 : 0,
                 pointHoverRadius: 5,
@@ -26,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 maintainAspectRatio: true,
                 plugins: {
                     legend: { display: false },
-                    tooltip: { backgroundColor: '#123b46', titleColor: '#ffffff', bodyColor: '#ffffff', padding: 12, cornerRadius: 10 },
+                    tooltip: { backgroundColor: primary, titleColor: '#ffffff', bodyColor: '#ffffff', padding: 12, cornerRadius: 10 },
                 },
                 scales: {
                     x: { grid: { display: false }, ticks: { color: '#475569', maxRotation: 0, autoSkip: true } },

@@ -1,6 +1,15 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+const cssToken = (name, fallback) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+const mapColors = {
+    low: cssToken('--priority-low', '#0f766e'),
+    medium: cssToken('--priority-medium', '#b45309'),
+    high: cssToken('--priority-high', '#c2410c'),
+    critical: cssToken('--priority-critical', '#b91c1c'),
+    primary: cssToken('--primary', '#123b46'),
+};
+
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('apiKawalMap', () => ({
         map: null, markers: null, reports: [], mode: 'map', loading: false, error: '',
@@ -30,18 +39,18 @@ document.addEventListener('alpine:init', () => {
                     L.marker([item.lat, item.lng], { icon }).bindPopup(`<a href="/laporan/${encodeURIComponent(item.code)}"><strong>${item.code}</strong></a><br>${item.status_label}<br>Prioritas ${item.level} (${item.priority})`).addTo(this.markers);
                 }
                 for (const spot of data.hotspots) {
-    L.circleMarker([spot.lat, spot.lng], {
-        radius: 5,
-        color: '#7c3aed'
-    })
-    .bindPopup(`Hotspot: ${String(spot.source ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;')}`)
-    .addTo(this.markers);
-    }
+                    L.circleMarker([spot.lat, spot.lng], {
+                        radius: 5,
+                        color: mapColors.primary,
+                    })
+                        .bindPopup(`Hotspot: ${String(spot.source ?? '')
+                            .replace(/&/g, '&amp;')
+                            .replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;')
+                            .replace(/"/g, '&quot;')
+                            .replace(/'/g, '&#39;')}`)
+                        .addTo(this.markers);
+                }
             } catch (error) {
                 this.error = error.message || 'Terjadi gangguan saat memuat peta.';
             } finally {
@@ -58,7 +67,7 @@ document.addEventListener('alpine:init', () => {
             if (!response.ok) return;
             const { data } = await response.json();
             for (const cell of data) {
-                const color = cell.level === 'tinggi' ? '#b91c1c' : cell.level === 'sedang' ? '#d97706' : '#15803d';
+                const color = cell.level === 'tinggi' ? mapColors.critical : cell.level === 'sedang' ? mapColors.medium : mapColors.low;
                 L.rectangle([[cell.bbox.south, cell.bbox.west], [cell.bbox.north, cell.bbox.east]], { color, weight: 1, fillColor: color, fillOpacity: 0.28 })
                     .bindPopup(`Sel ${cell.cell_key}<br>Level ${cell.level}<br>Skor ${Math.round(cell.score)}<br>Hotspot ${cell.hotspot_count} · laporan ${cell.report_count}`).addTo(this.map);
             }
@@ -71,7 +80,7 @@ document.addEventListener('alpine:init', () => {
             const response = await fetch('/peta/data');
             if (!response.ok) return;
             const { reports } = await response.json();
-            reports.slice(0, 80).forEach((item) => L.circleMarker([item.lat, item.lng], { radius: 7, color: item.level === 'kritis' || item.level === 'tinggi' ? '#b91c1c' : '#15803d' }).addTo(map));
+            reports.slice(0, 80).forEach((item) => L.circleMarker([item.lat, item.lng], { radius: 7, color: item.level === 'kritis' ? mapColors.critical : item.level === 'tinggi' ? mapColors.high : mapColors.low }).addTo(map));
         },
     }));
     window.Alpine.data('apiKawalOfficerMap', () => ({
@@ -82,7 +91,7 @@ document.addEventListener('alpine:init', () => {
             if (!response.ok) return;
             const { reports } = await response.json();
             reports.filter((report) => ['terverifikasi', 'diteruskan', 'dalam_penanganan', 'terkendali'].includes(report.status)).forEach((report) => {
-                L.circleMarker([report.lat, report.lng], { radius: 8, color: report.level === 'kritis' || report.level === 'tinggi' ? '#991b1b' : '#b45309' })
+                L.circleMarker([report.lat, report.lng], { radius: 8, color: report.level === 'kritis' ? mapColors.critical : report.level === 'tinggi' ? mapColors.high : mapColors.medium })
                     .bindPopup(`<a href="/laporan/${encodeURIComponent(report.code)}">${L.Util.escapeHTML(report.code)}</a><br>${L.Util.escapeHTML(report.status_label)} · ${report.priority}`).addTo(map);
             });
         },

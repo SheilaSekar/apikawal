@@ -6,7 +6,7 @@
     @if ($errors->any())<x-alert type="error"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></x-alert>@endif
     <p class="eyebrow mt-5">{{ $report->code }} @if($report->is_simulated)<span class="simulated-badge">DATA SIMULASI</span>@endif</p>
     <h1 class="section-title mt-2 text-3xl">Laporan indikasi kebakaran</h1>
-    <p class="mt-3">Status <x-status-badge :label="$report->status->label()" /> · Prioritas <x-status-badge :label="$report->priority_level->label()" /> · Skor {{ $report->priority_score }}/100</p>
+    <p class="mt-3">Status <x-status-badge :label="$report->status->label()" /> · Prioritas <x-priority-badge :label="$report->priority_level->label()" :level="$report->priority_level->value" /> · Skor {{ $report->priority_score }}/100</p>
     <div class="panel mt-5"><p>Jenis lahan: {{ $report->land_type->label() }}</p><p>Tanda: {{ collect($report->signs)->map(fn ($sign) => ucfirst($sign))->join(', ') }}</p><p>Koordinat: {{ number_format($latitude, $isOfficer ? 6 : 3) }}, {{ number_format($longitude, $isOfficer ? 6 : 3) }}</p><p class="prose-justify mt-3">{{ $report->description ?: 'Tidak ada deskripsi.' }}</p></div>
     <section class="panel mt-5"><h2 class="section-title">Kenapa skor ini?</h2><p class="mt-1 text-sm text-slate-600">Indeks ini alat triase dengan bobot heuristik awal, bukan pengukur akurat tingkat bahaya.</p>
         <ul class="mt-3 grid gap-2 sm:grid-cols-2">@foreach($report->priority_breakdown ?? [] as $factor => $detail)<li>{{ str_replace('_', ' ', ucfirst($factor)) }}: faktor {{ number_format($detail['factor'] ?? 0, 2) }} × bobot {{ $detail['weight'] ?? 0 }} = {{ number_format($detail['contribution'] ?? 0, 1) }} poin</li>@endforeach</ul>

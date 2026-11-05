@@ -73,3 +73,11 @@
 - [x] Tampilan daftar peta dan 10 sel analitik memakai kartu bertumpuk pada layar kecil agar data tetap terbaca tanpa tabel melebar.
 - [ ] Pemeriksaan visual pada browser lebar 360px belum dilakukan; perlu dicek manual untuk landing, peta, form lapor, detail, dashboard, antrean, admin, dan analitik. Build/test tidak mengukur clipping, rasio kontras visual, atau navigasi keyboard secara langsung.
 - Audit dokumentasi proposal: fitur aktif tetap dijelaskan sebagai prototipe, simulasi, atau heuristik sesuai batasan; integrasi instansi, komunikasi eksternal, cuaca real-time, kalibrasi pakar, prediksi, dan offline tetap proyeksi.
+
+## Redesain UI premium (5 November 2026)
+- [x] S1 — Design token awal, latar aurora CSS, stack tipografi sistem, chrome sticky, navigasi responsif keyboard-operable, banner darurat permanen, dan footer.
+- Validasi S1: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build), PHP 8.3.36 dengan `.local/php/conf.d`.
+- [ ] S2 — Restyle komponen Blade bersama.
+- [ ] S3 — Redesain landing page, scroll reveal, dan counter.
+- [ ] S4 — Restyle peta, form, detail, dashboard, admin, analitik, auth, API docs, dan error.
+- [ ] S5 — Audit aksesibilitas/kontras, reduced motion, 360/768/1280px, bersihkan CSS mati, dan dokumentasi token.

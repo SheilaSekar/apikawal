@@ -79,6 +79,7 @@
 - Validasi S1: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build), PHP 8.3.36 dengan `.local/php/conf.d`.
 - [x] S2 — Restyle tombol, field, label/error, alert, badge status/prioritas, empty state, dropdown, modal, panel, tabel, dan pagination. Tidak ada dependensi baru.
 - Validasi S2: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build).
-- [ ] S3 — Redesain landing page, scroll reveal, dan counter.
+- [x] S3 — Redesain landing dengan hero/counter, alur empat langkah, peta ringkas, faktor indeks, laporan terbaru, batasan, dan CTA; reveal dan counter memakai JS vanilla yang menghormati `prefers-reduced-motion`.
+- Validasi S3: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build).
 - [ ] S4 — Restyle peta, form, detail, dashboard, admin, analitik, auth, API docs, dan error.
 - [ ] S5 — Audit aksesibilitas/kontras, reduced motion, 360/768/1280px, bersihkan CSS mati, dan dokumentasi token.

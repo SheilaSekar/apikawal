@@ -1,7 +1,7 @@
 @extends('layouts.site')
 @section('title', ($report->code ?? 'Laporan').' — APIKAWAL')
 @section('content')
-<article class="site-container max-w-4xl py-10">
+<article class="site-container report-detail-view max-w-4xl py-10">
     @if (session('status'))<x-alert>{{ session('status') }}</x-alert>@endif
     <p class="eyebrow mt-5">{{ $report->code }} @if($report->is_simulated)<span class="simulated-badge">DATA SIMULASI</span>@endif</p>
     <h1 class="section-title mt-2 text-3xl">Laporan indikasi kebakaran</h1>

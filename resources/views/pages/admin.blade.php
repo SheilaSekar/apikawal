@@ -1,7 +1,7 @@
 @extends('layouts.site')
 @section('title', 'Administrasi — APIKAWAL')
 @section('content')
-<section class="site-container space-y-8 py-10">
+<section class="site-container admin-view space-y-8 py-10">
     <header><p class="eyebrow">PENGELOLAAN SISTEM</p><h1 class="section-title">Administrasi APIKAWAL</h1><p class="mt-2">Akses terbatas untuk admin. Lakukan perubahan secara hati-hati.</p></header>
     @if(session('status'))<div class="notice-card" role="status">{{ session('status') }}</div>@endif
     <section class="panel"><h2 class="text-xl font-bold">Pengajuan relawan</h2>@forelse($volunteerApplications as $application)<form method="POST" action="{{ route('admin.users.update', $application->user) }}" class="flex flex-wrap items-center justify-between gap-3 border-b py-3">@csrf @method('PATCH')<input type="hidden" name="role" value="relawan"><input type="hidden" name="is_active" value="1"><p>{{ $application->message }}</p><button class="button button-secondary">Setujui relawan</button></form>@empty<p class="mt-3">Tidak ada pengajuan baru.</p>@endforelse</section>

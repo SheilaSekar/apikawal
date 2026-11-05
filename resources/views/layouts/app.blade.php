@@ -12,23 +12,18 @@
     </head>
     <body class="font-sans antialiased">
         <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
-        <div class="emergency-banner" role="note">{{ config('apikawal.emergency_banner') }}</div>
-        <div class="min-h-screen bg-gray-100">
+        <div class="site-chrome">
+            <div class="emergency-banner" role="note">{{ config('apikawal.emergency_banner') }}</div>
             @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main id="main-content">
-                {{ $slot }}
-            </main>
         </div>
+
+        @isset($header)
+            <header class="site-page-heading">
+                <div class="site-container">{{ $header }}</div>
+            </header>
+        @endisset
+
+        <main id="main-content" class="app-content">{{ $slot }}</main>
+        <footer class="site-footer"><div class="site-container"><strong>APIKAWAL</strong><p>Alat pelaporan dan koordinasi, bukan pendeteksi api otomatis dan bukan pengganti layanan darurat.</p></div></footer>
     </body>
 </html>

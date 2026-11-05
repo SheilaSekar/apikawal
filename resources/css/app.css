@@ -209,6 +209,68 @@ main { min-height: 60vh; }
 .landing-steps [data-reveal]:nth-child(2), .landing-counters [data-reveal]:nth-child(2) { transition-delay: 70ms; }
 .landing-steps [data-reveal]:nth-child(3), .landing-counters [data-reveal]:nth-child(3) { transition-delay: 130ms; }
 .landing-steps [data-reveal]:nth-child(4), .landing-counters [data-reveal]:nth-child(4) { transition-delay: 190ms; }
+.site-page-heading { border-bottom: 1px solid rgb(129 146 135 / 36%); background: rgb(255 255 255 / 56%); padding-block: 1.25rem; }
+.app-content { min-height: 60vh; }
+.app-navigation { width: 100%; }
+.app-nav-inner { min-height: 4.5rem; }
+.app-nav-inner > .flex { width: 100%; min-height: 4.5rem; height: auto; }
+.app-navigation .hidden.sm\:flex { align-items: center; gap: 1.25rem; }
+.app-navigation .hidden.sm\:flex a, .app-navigation .hidden.sm\:flex button { min-height: 44px; }
+.app-navigation .hidden.sm\:flex > div { display: flex; align-items: center; }
+.app-navigation .hidden.sm\:flex > div > button { border-radius: 999px; border-color: #819287; background: var(--glass); color: var(--primary); padding-inline: 1rem; }
+.site-footer { margin-top: 4rem; border-top: 1px solid rgb(255 255 255 / 18%); background: var(--footer); padding-block: 2rem; color: white; }
+.site-footer p { max-width: 48rem; margin-top: .55rem; color: #e2e8f0; font-size: .9rem; line-height: 1.6; }
+.auth-nav { justify-content: flex-start; }
+.auth-logo { width: 2rem; height: 2rem; color: var(--green); }
+.auth-shell { display: grid; min-height: min(76vh, 56rem); place-items: center; padding: clamp(1.5rem, 5vw, 4rem) 1rem; }
+.auth-card { width: min(100%, 29rem); border: 1px solid rgb(255 255 255 / 85%); border-radius: 1.75rem; background: var(--card); padding: clamp(1.4rem, 5vw, 2.4rem); box-shadow: var(--shadow-soft); }
+@supports (backdrop-filter: blur(1px)) { .auth-card, .profile-card { background: var(--glass); backdrop-filter: blur(16px) saturate(135%); -webkit-backdrop-filter: blur(16px) saturate(135%); } }
+.profile-card { border: 1px solid rgb(255 255 255 / 82%); border-radius: var(--radius-card); background: var(--card); box-shadow: var(--shadow-soft); }
+.dashboard-view, .analytics-view, .admin-view, .officer-view, .report-create-view, .report-detail-view { min-width: 0; }
+.page-intro { color: var(--muted); }
+.page-intro h1 { margin-top: .25rem; color: var(--primary); font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; }
+.dashboard-list-link { display: block; min-height: 44px; border-bottom: 1px solid rgb(129 146 135 / 38%); padding-block: .85rem; color: var(--primary); line-height: 1.5; text-decoration: none; }
+.dashboard-list-link:hover { color: var(--accent); }
+.dashboard-notification { align-items: center; border-color: rgb(129 146 135 / 38%); }
+.report-detail-view { width: min(100% - 3rem, 58rem); }
+.report-detail-view > h1 { color: var(--primary); font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.045em; }
+.report-create-view > h1 { color: var(--primary); font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.045em; }
+.report-create-view .panel { min-width: 0; }
+.report-create-view .report-map { overflow: hidden; }
+.admin-view > section > h2, .officer-view h2, .analytics-view h2 { color: var(--primary); letter-spacing: -.025em; }
+.admin-view > section, .analytics-view > article, .officer-view > .panel { min-width: 0; }
+.admin-view form { min-width: 0; }
+.admin-view input:not([type="hidden"]), .admin-view select { min-width: min(100%, 12rem); }
+.analytics-view canvas { display: block; width: 100%; max-height: 24rem; }
+.map-filter-panel { border-color: rgb(255 255 255 / 88%); border-radius: var(--radius-card); }
+.map-list-surface { overflow: hidden; padding: .4rem; }
+.map-view-toggle [aria-pressed="true"] { border-color: var(--primary); background: var(--primary); color: white; }
+.map-legend { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.25rem; color: var(--muted); font-size: .82rem; }
+.map-legend > span { display: inline-flex; align-items: center; gap: .4rem; }
+.legend-dot { width: .75rem; height: .75rem; border: 1px solid currentColor; border-radius: 50%; }
+.legend-low { background: #0f766e; color: #0f766e; }
+.legend-high { background: #b91c1c; color: #b91c1c; }
+.map-marker { display: grid; width: 38px; height: 38px; place-items: center; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 4px 12px rgb(15 23 42 / 25%); color: white; font-size: .9rem; font-weight: 800; }
+.map-marker-rendah { background: #0f766e; }
+.map-marker-sedang { background: #b45309; }
+.map-marker-tinggi { background: #c2410c; }
+.map-marker-kritis { background: #b91c1c; }
+.leaflet-container { border-radius: inherit; background: #e8f1ee; font: inherit; }
+.leaflet-bar { overflow: hidden; border: 1px solid #819287; border-radius: .85rem; box-shadow: var(--shadow-soft); }
+.leaflet-bar a, .leaflet-bar a:hover { display: grid; width: 44px; height: 44px; place-items: center; border-bottom: 1px solid #819287; background: rgb(255 255 255 / 90%); color: var(--primary); line-height: 1; }
+.leaflet-control-layers, .leaflet-control-attribution { border: 1px solid rgb(129 146 135 / 62%); border-radius: .75rem; background: rgb(255 255 255 / 90%); color: #334155; box-shadow: var(--shadow-soft); }
+.leaflet-control-layers { padding: .5rem .7rem; }
+.leaflet-control-attribution { padding: .25rem .45rem; font-size: .7rem; }
+.leaflet-control-attribution a, .leaflet-popup-content a { color: #9a3412; font-weight: 700; }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { border: 1px solid rgb(255 255 255 / 88%); background: rgb(255 255 255 / 92%); box-shadow: var(--shadow-soft); }
+@supports (backdrop-filter: blur(1px)) { .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: rgb(255 255 255 / 82%); backdrop-filter: blur(14px); } }
+.leaflet-popup-content { color: var(--ink); font-size: .9rem; line-height: 1.55; }
+.api-docs-view > h2 { margin-top: 2.25rem; color: var(--primary); font-size: 1.45rem; }
+.api-docs-view > h2 + code { display: block; max-width: 100%; overflow-x: auto; border: 1px solid #819287; border-radius: .85rem; background: rgb(255 255 255 / 70%); padding: .85rem 1rem; color: var(--primary); font-size: .88rem; white-space: pre; }
+.api-docs-view .api-code-block { border: 1px solid rgb(255 255 255 / 16%); border-radius: 1rem; background: #102a32; color: #f8fafc; box-shadow: 0 16px 36px rgb(15 23 42 / 20%); text-align: left; white-space: pre; }
+.api-docs-view .api-code-block code { color: inherit; text-align: left; }
+.error-page { min-height: 55vh; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+.error-page h1 { color: var(--primary); font-size: clamp(2rem, 5vw, 3.5rem); }
 @media (max-width: 640px) {
     .site-container { width: min(100% - 1.5rem, 90rem); }
     .site-nav { min-height: 4rem; }
@@ -222,6 +284,13 @@ main { min-height: 60vh; }
     body { background-image: radial-gradient(ellipse at 10% 0%, rgb(153 246 228 / 32%), transparent 42%), radial-gradient(ellipse at 94% 6%, rgb(191 219 254 / 32%), transparent 40%), radial-gradient(ellipse at 70% 75%, rgb(254 215 170 / 25%), transparent 40%); }
     .site-header { backdrop-filter: blur(10px) saturate(130%); -webkit-backdrop-filter: blur(10px) saturate(130%); }
     .panel, .surface-glass { padding: 1rem; border-radius: 1.2rem; }
+    .report-detail-view { width: min(100% - 1.5rem, 58rem); }
+    .auth-shell { min-height: 62vh; padding-inline: .75rem; }
+    .auth-card { border-radius: 1.25rem; }
+    .dashboard-notification { align-items: flex-start; flex-direction: column; }
+    .admin-view input:not([type="hidden"]), .admin-view select { min-width: 0; }
+    .map-view-toggle { flex-wrap: wrap; }
+    .map-legend { align-items: flex-start; flex-direction: column; }
     .landing-hero { min-height: 0; grid-template-columns: 1fr; gap: 2.5rem; padding-block: 4rem; }
     .landing-hero .hero-title { font-size: clamp(3rem, 14vw, 4.5rem); }
     .landing-counters { gap: .65rem; }
@@ -243,6 +312,9 @@ main { min-height: 60vh; }
     .landing-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .landing-hero { grid-template-columns: minmax(0, 1fr) minmax(18rem, .85fr); gap: 2rem; }
     .landing-hero .hero-title { font-size: clamp(3rem, 6vw, 4.5rem); }
+}
+@media (min-width: 641px) and (max-width: 767px) {
+    .report-detail-view { width: min(100% - 2rem, 58rem); }
 }
 @media (prefers-reduced-motion: reduce) {
     .can-reveal [data-reveal] { opacity: 1; transform: none; transition: none; }

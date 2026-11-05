@@ -1,7 +1,7 @@
 @extends('layouts.site')
 @section('title', 'Buat laporan — APIKAWAL')
 @section('content')
-<section class="site-container py-10 sm:py-14">
+<section class="site-container report-create-view py-10 sm:py-14">
     <p class="eyebrow">LAPORAN WARGA</p><h1 class="section-title mt-2 text-3xl">Buat laporan risiko</h1>
     <p class="mt-2 max-w-2xl text-slate-600">Laporkan tanda yang Anda amati. Informasi lokasi dan deskripsi akan ditinjau; APIKAWAL bukan layanan darurat.</p>
     @if ($errors->any())<x-alert type="error" class="mt-5"><ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></x-alert>@endif

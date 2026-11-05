@@ -100,7 +100,7 @@
             >
                 <header class="flex items-start gap-4">
                     <span
-                        class="inline-flex h-12 w-12 flex-none items-center justify-center rounded-md bg-gray-900 text-lg font-bold text-white"
+                        class="sdg-number-badge inline-flex h-12 w-12 flex-none items-center justify-center rounded-xl text-lg font-bold text-white"
                         aria-hidden="true"
                     >{{ $sdg['number'] }}</span>
                     <div>

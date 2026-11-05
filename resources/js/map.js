@@ -24,9 +24,9 @@ document.addEventListener('alpine:init', () => {
                 this.markers.clearLayers();
                 const symbols = { baru: '!', terverifikasi: 'V', diteruskan: '→', dalam_penanganan: 'P', terkendali: '=', selesai: '✓', padam_sendiri: '0' };
                 for (const item of data.reports) {
-                    const color = item.level === 'kritis' ? '#991b1b' : item.level === 'tinggi' ? '#c2410c' : item.level === 'sedang' ? '#b45309' : '#166534';
                     const symbol = symbols[item.status] || '?';
-                    const icon = L.divIcon({ className: '', html: `<span style="display:grid;place-items:center;width:34px;height:34px;background:${color};color:white;border:2px solid white;border-radius:50%;font-weight:bold;box-shadow:0 1px 5px #555">${symbol}</span>`, iconSize: [34, 34], iconAnchor: [17, 17] });
+                    const level = ['rendah', 'sedang', 'tinggi', 'kritis'].includes(item.level) ? item.level : 'rendah';
+                    const icon = L.divIcon({ className: '', html: `<span class="map-marker map-marker-${level}">${symbol}</span>`, iconSize: [38, 38], iconAnchor: [19, 19] });
                     L.marker([item.lat, item.lng], { icon }).bindPopup(`<a href="/laporan/${encodeURIComponent(item.code)}"><strong>${item.code}</strong></a><br>${item.status_label}<br>Prioritas ${item.level} (${item.priority})`).addTo(this.markers);
                 }
                 for (const spot of data.hotspots) {

@@ -81,5 +81,6 @@
 - Validasi S2: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build).
 - [x] S3 — Redesain landing dengan hero/counter, alur empat langkah, peta ringkas, faktor indeks, laporan terbaru, batasan, dan CTA; reveal dan counter memakai JS vanilla yang menghormati `prefers-reduced-motion`.
 - Validasi S3: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build).
-- [ ] S4 — Restyle peta, form, detail, dashboard, admin, analitik, auth, API docs, dan error.
+- [x] S4 — Samakan layout auth/profil, dashboard, laporan, antrean, admin, analitik, peta/Leaflet, grafik, API docs, dan halaman error; CSP tetap tidak berubah.
+- Validasi S4: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build).
 - [ ] S5 — Audit aksesibilitas/kontras, reduced motion, 360/768/1280px, bersihkan CSS mati, dan dokumentasi token.

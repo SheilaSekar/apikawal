@@ -12,17 +12,15 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
-        <div class="emergency-banner" role="note">{{ config('apikawal.emergency_banner') }}</div>
-        <div id="main-content" class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
-
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div class="site-chrome">
+            <div class="emergency-banner" role="note">{{ config('apikawal.emergency_banner') }}</div>
+            <header class="site-header"><nav class="site-container site-nav auth-nav"><a class="brand" href="{{ route('home') }}"><x-application-logo class="auth-logo" /> APIKAWAL</a></nav></header>
+        </div>
+        <main id="main-content" class="auth-shell">
+            <div class="auth-card">
                 {{ $slot }}
             </div>
-        </div>
+        </main>
+        <footer class="site-footer"><div class="site-container"><strong>APIKAWAL</strong><p>Alat pelaporan dan koordinasi, bukan pendeteksi api otomatis dan bukan pengganti layanan darurat.</p></div></footer>
     </body>
 </html>

@@ -1,4 +1,6 @@
-<x-guest-layout>
+<x-guest-layout title="Buat akun">
+    <h1>Buat akun</h1>
+    <p class="auth-help">Daftar sebagai warga untuk melaporkan indikasi kebakaran dan membantu verifikasi.</p>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 

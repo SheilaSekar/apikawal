@@ -82,21 +82,21 @@
     ];
 @endphp
 
-<section aria-labelledby="sdg-heading" class="w-full">
+<section aria-labelledby="sdg-heading" class="w-full sdgs-section">
     <h2 id="sdg-heading" class="text-2xl font-bold text-gray-900">Kontribusi terhadap Tujuan Pembangunan Berkelanjutan (SDGs)</h2>
 
-    <p class="mt-3 text-base leading-relaxed text-gray-800">
+    <p class="prose-justify mt-3 text-base leading-relaxed text-gray-800">
         APIKAWAL dirancang untuk mendukung lima tujuan Tujuan Pembangunan Berkelanjutan (SDGs).
         <strong>SDG 13 (Penanganan Perubahan Iklim)</strong> adalah tujuan utama, sedangkan SDG 15, SDG 11, SDG 3, dan SDG 17
         adalah tujuan pendukung yang ikut terjawab oleh cara kerja sistem ini: pelaporan dini dari warga, verifikasi berlapis,
         prioritas penanganan yang transparan, pelacakan status respons, dan data terbuka.
     </p>
 
-    <div class="mt-8 grid gap-6 md:grid-cols-2">
+    <div class="sdgs-grid mt-8">
         @foreach ($sdgs as $sdg)
             <article
                 aria-labelledby="sdg-{{ $sdg['number'] }}-title"
-                class="flex flex-col rounded-lg border border-gray-300 bg-white p-5 shadow-sm {{ $loop->first ? 'md:col-span-2' : '' }}"
+                class="sdg-card flex flex-col"
             >
                 <header class="flex items-start gap-4">
                     <span
@@ -114,17 +114,17 @@
                 </header>
 
                 <h4 class="mt-4 text-sm font-semibold uppercase tracking-wide text-gray-700">Mengapa relevan</h4>
-                <p class="mt-1 leading-relaxed text-gray-800">{{ $sdg['why'] }}</p>
+                <p class="prose-justify mt-1 leading-relaxed text-gray-800">{{ $sdg['why'] }}</p>
 
                 <h4 class="mt-4 text-sm font-semibold uppercase tracking-wide text-gray-700">Bagaimana APIKAWAL mendukung</h4>
-                <ul class="mt-1 list-disc space-y-1 pl-5 leading-relaxed text-gray-800">
+                <ul class="prose-justify mt-1 list-disc space-y-1 pl-5 leading-relaxed text-gray-800">
                     @foreach ($sdg['how'] as $item)
                         <li>{{ $item }}</li>
                     @endforeach
                 </ul>
 
                 <h4 class="mt-4 text-sm font-semibold uppercase tracking-wide text-gray-700">Target terkait</h4>
-                <ul class="mt-1 space-y-1 leading-relaxed text-gray-800">
+                <ul class="prose-justify mt-1 space-y-1 leading-relaxed text-gray-800">
                     @foreach ($sdg['targets'] as [$code, $text])
                         <li>
                             <span class="font-semibold">Target {{ $code }}:</span> {{ $text }}
@@ -137,7 +137,7 @@
 
     <aside class="mt-8 rounded-lg border border-gray-300 bg-gray-50 p-5" aria-labelledby="sdg-note-title">
         <h3 id="sdg-note-title" class="text-base font-bold text-gray-900">Catatan tentang pemetaan ini</h3>
-        <ul class="mt-2 list-disc space-y-1 pl-5 leading-relaxed text-gray-800">
+        <ul class="prose-justify mt-2 list-disc space-y-1 pl-5 leading-relaxed text-gray-800">
             <li>Pemetaan ini menunjukkan <strong>area kontribusi yang dituju</strong>, bukan klaim dampak yang sudah terukur. APIKAWAL adalah prototipe dan belum diuji bersama instansi penanganan kebakaran.</li>
             <li>APIKAWAL <strong>bukan pendeteksi api otomatis</strong> dan <strong>bukan pengganti layanan darurat</strong>. Untuk kebakaran yang mengancam jiwa, hubungi 112 atau BPBD/pemadam kebakaran setempat.</li>
             <li>Indeks Prioritas bersifat heuristik awal sebagai alat triase untuk mengurutkan antrean, dan bobotnya dapat dikalibrasi bersama pakar pada tahap pengembangan berikutnya.</li>

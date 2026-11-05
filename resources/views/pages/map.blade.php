@@ -12,7 +12,7 @@
     </form>
     <div class="map-view-toggle mt-4 flex gap-2"><button type="button" class="button button-secondary" @click="mode='map'" :aria-pressed="mode==='map'">Tampilan Peta</button><button type="button" class="button button-secondary" @click="mode='list'" :aria-pressed="mode==='list'">Tampilan Daftar</button></div>
     <p class="mt-2 text-sm" role="status" aria-live="polite" x-show="loading">Memuat data peta…</p><p class="notice-card-error mt-2 p-3" role="alert" x-show="error" x-text="error"></p>
-    <div x-show="mode==='map'" id="public-map" class="mt-4 h-[65vh] min-h-[380px] rounded-xl border" role="application" aria-label="Peta laporan kebakaran lahan"></div>
+    <div x-show="mode==='map'" id="public-map" class="report-map mt-4 h-[65vh] min-h-[380px] rounded-xl border" role="application" aria-label="Peta laporan kebakaran lahan"></div>
     <div x-show="mode==='list'" class="glass-surface map-list-surface mt-4">
         <div class="divide-y sm:hidden"><template x-for="item in reports" :key="`mobile-${item.code}`"><article class="p-4"><a class="inline-flex min-h-[44px] items-center font-bold underline" :href="`/laporan/${item.code}`" x-text="item.code"></a><dl class="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm"><dt class="font-semibold">Status</dt><dd x-text="item.status_label"></dd><dt class="font-semibold">Prioritas</dt><dd x-text="`${item.level} · ${item.priority}`"></dd><dt class="font-semibold">Jenis lahan</dt><dd x-text="item.land_type"></dd><dt class="font-semibold">Waktu</dt><dd x-text="item.created_at || '—'"></dd></dl></article></template></div>
         <p x-show="reports.length===0" class="p-6">Belum ada laporan yang sesuai filter.</p>

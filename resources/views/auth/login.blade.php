@@ -1,4 +1,6 @@
-<x-guest-layout>
+<x-guest-layout title="Masuk">
+    <h1>Masuk</h1>
+    <p class="auth-help">Masuk untuk memantau laporan, memberi verifikasi, dan menerima pembaruan.</p>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 

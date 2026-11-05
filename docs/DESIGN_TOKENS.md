@@ -21,6 +21,20 @@ Bahasa visual ini memakai warna tenang bertema lingkungan dengan aksen hangat un
 | `--glass` | `rgb(255 255 255 / 78%)` | Permukaan kaca buram |
 | `--footer` | `#022C22` | Footer |
 
+## Urutan lapisan antarmuka
+
+| Token | Nilai | Penggunaan |
+|---|---:|---|
+| `--z-map` | `0` | Stacking context peta Leaflet, terisolasi dalam pembungkusnya |
+| `--z-nav` | `100` | Banner darurat dan navbar sticky |
+| `--z-menu` | `150` | Menu navigasi mobile terbuka |
+| `--z-dropdown` | `200` | Dropdown akun dan komponen menu |
+| `--z-modal` | `300` | Lapisan modal di atas konten dan navigasi |
+| `--z-toast` | `400` | Pesan toast yang mengambang |
+| `--z-skip-link` | `500` | Tautan akses konten ketika fokus keyboard |
+
+Peta memakai `position: relative`, `isolation: isolate`, dan `z-index: var(--z-map)`. Dengan begitu pane, marker, kontrol, dan popup Leaflet tidak keluar dari lapisan kontennya.
+
 Warna prioritas marker adalah `--priority-low: #0F766E`, `--priority-medium: #B45309`, `--priority-high: #C2410C`, dan `--priority-critical: #B91C1C`. Label prioritas memakai pasangan teks dan latar yang lebih gelap/terang, sehingga tetap terbaca tanpa bergantung pada warna.
 
 ## Kontras yang dicek

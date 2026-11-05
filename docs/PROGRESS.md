@@ -85,3 +85,9 @@
 - Validasi S4: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build).
 - [x] S5 — Dokumentasikan token dan rasio kontras, audit aturan alignment serta CSS mati, hormati reduced motion, dan rapikan landing mobile setelah menemukan clipping pada preview.
 - Validasi akhir S5: `npm run build` lulus; `composer check` lulus (Pint + 61 test/217 assertions + Vite build), PHP 8.3.36. Screenshot Chrome headless terpengaruh skala viewport/layar lokal; pemeriksaan visual penuh pada viewport CSS 360/768/1280 dan halaman lain masih perlu dilakukan manual.
+
+## Perbaikan UI lanjutan (5 November 2026)
+- [x] Diagnosis: `resources/css/app.css` memakai `.site-chrome` z-index 40 dan `.report-map` z-index 0 tanpa membentuk stacking context; root `/peta` juga belum memakai `.report-map`. `about.blade.php` hanya memberi justify pada beberapa paragraf, sedangkan salinan panjang di SDG belum memakai kelas body. `guest.blade.php` dan `application-logo.blade.php` masih membawa title/ikon fallback Laravel; navbar utama belum menampilkan panel role dan halaman Breeze memakai layout terpisah.
+- [x] Isolasi stacking Leaflet dan dokumentasikan token urutan layer; selaraskan Tentang/SDG dengan `.prose-justify`; pakai logo APIKAWAL bersama, favicon SVG, metadata, judul auth, dan tautan beranda; tampilkan Dashboard serta panel sesuai role di navigasi desktop/mobile.
+- [x] Verifikasi browser Chrome pada 360/768/1280px: halaman peta/Tentang/masuk/daftar tidak memiliki horizontal overflow; navbar tetap di atas peta saat scroll, menu mobile memakai lapisan di atas peta, heading Tentang tetap rata kiri, tabel rata kiri, body copy justify mulai 640px, dan kartu SDG tidak meluber.
+- Validasi: `npm run build` dan `composer check` lulus (Pint + 61 test/217 assertions + Vite build). CSP tidak berubah.

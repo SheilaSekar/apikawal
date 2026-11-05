@@ -5,16 +5,22 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a class="inline-flex min-h-[44px] min-w-[44px] items-center justify-center" href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a class="brand" href="{{ route('home') }}" aria-label="APIKAWAL, kembali ke beranda">
+                        <x-application-logo />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        Dasbor
+                        Dashboard
                     </x-nav-link>
+                    @if (in_array(auth()->user()->role->value, ['petugas', 'admin'], true))
+                        <x-nav-link :href="route('officer.index')" :active="request()->routeIs('officer.*')">Panel petugas</x-nav-link>
+                    @endif
+                    @if (auth()->user()->role->value === 'admin')
+                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">Panel admin</x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -65,8 +71,14 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                Dasbor
+                Dashboard
             </x-responsive-nav-link>
+            @if (in_array(auth()->user()->role->value, ['petugas', 'admin'], true))
+                <x-responsive-nav-link :href="route('officer.index')" :active="request()->routeIs('officer.*')">Panel petugas</x-responsive-nav-link>
+            @endif
+            @if (auth()->user()->role->value === 'admin')
+                <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">Panel admin</x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

@@ -7,8 +7,8 @@ Branch kerja: `invofest` (lokal, jangan push). Tenggat: 7 November 2026.
 - [x] T0 — Baca brief dan audit sumber; requirements, assumptions, dan port logika dicatat di `docs/invofest/`.
 - [x] T1 — Fondasi frontend statis, design system, shell dan halaman, dependensi lokal.
 - [x] T2 — Domain JS murni dan unit test `node --test`.
-- [ ] T3 — Store, seed deterministik, pelaporan, duplikat, detail/verifikasi/status.
-- [ ] T4 — Peta, dashboard, petugas, admin, analitik, ekosistem, tentang.
+- [x] T3 — Store, seed deterministik, pelaporan, duplikat, detail/verifikasi/status.
+- [x] T4 — Peta, dashboard, petugas, admin, analitik, ekosistem, tentang.
 - [ ] T5 — Aksesibilitas, responsif, state, 404, dan QA tertulis.
 - [ ] T6 — README kompetisi, deskripsi karya, skrip video, checklist submit.
 
@@ -22,4 +22,6 @@ Branch kerja: `invofest` (lokal, jangan push). Tenggat: 7 November 2026.
 - [x] T1 memuat 11 halaman HTML, palet dan komponen CSS, banner darurat, serta pemilih peran simulasi.
 - [x] T2 mengimplementasikan geospasial, duplikat, evaluasi suara, skor prioritas, dan state machine di JS murni.
 - [x] `node --test invofest/tests/domain.test.js`: 5 tes lulus (dijalankan ulang setelah satu ekspektasi transisi tes diperbaiki).
+- [x] T3/T4: state localStorage versioned, seed 30 laporan/300 hotspot/30 POI/192 sel, form foto JPEG 800px, verifikasi dan audit log, peran demo, peta/filter/layer/list, dashboard, antrean, moderasi, analitik, ekosistem interaktif, batasan produk.
+- [x] `node --test invofest/tests/*.test.js`: 9 tes lulus.
 - [ ] QA browser 360/768/1280 dan video/proposal masih memerlukan tindakan tim.

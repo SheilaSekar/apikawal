@@ -5,6 +5,7 @@ import { findDuplicate, duplicateConflict } from '../assets/js/domain/duplicate.
 import { evaluateVerification, canVote, voteWeight } from '../assets/js/domain/verification.js';
 import { calculatePriority } from '../assets/js/domain/priority.js';
 import { transitionStatus } from '../assets/js/domain/status.js';
+import { createSeed } from '../assets/js/domain/seed.js';
 
 const now=Date.parse('2026-11-06T12:00:00Z');
 const report=(extra={})=>({id:'AK-1',reporterId:'u1',lat:-3.2,lng:105.4,landType:'gambut',status:'baru',createdAt:now-3600000,photos:[],...extra});
@@ -44,4 +45,12 @@ test('status machine requires officer note and admin override reason',()=>{
   assert.throws(()=>transitionStatus(report(),'selesai','petugas','tidak sah'),/tidak diizinkan/);
   assert.throws(()=>transitionStatus(report(),'selesai','admin',' '),/Alasan/);
   assert.equal(transitionStatus(report(),'selesai','admin','Koreksi admin').status,'selesai');
+  assert.equal(transitionStatus(report({status:'terverifikasi'}),'padam_sendiri','petugas','Api sudah padam').status,'padam_sendiri');
 });
+test('demo seed is deterministic in shape and labels every record simulated',()=>{
+  const seed=createSeed(now);
+  assert.equal(seed.reports.length,30);assert.equal(seed.hotspots.length,300);assert.equal(seed.pois.length,30);assert.equal(seed.grid.length,192);
+  assert.ok(seed.reports.every(r=>r.isSimulated));assert.ok(seed.hotspots.every(r=>r.isSimulated));assert.ok(seed.pois.every(r=>r.isSimulated));
+  assert.deepEqual(new Set(seed.reports.map(r=>r.status)),new Set(CONFIG_STATUSES));
+});
+const CONFIG_STATUSES=['baru','terverifikasi','diteruskan','dalam_penanganan','terkendali','selesai','ditolak','padam_sendiri','duplikat'];
